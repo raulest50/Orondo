@@ -1,1 +1,4 @@
 /build/classes/
+/gradle/
+/.gradle/
+/.idea/
