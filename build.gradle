@@ -1,0 +1,47 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.beryx.jlink' version '2.12.0'
+}
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+mainClassName = "$moduleName/Orondo.main.MainApp"
+
+/**
+ * luche el dia entero del 1 de diciembre para saber porque getClass().getResources no funcionaba cuando se
+ * usa gradle pero en los proyectos de ant si funciona. al final descubri que tiene que ver con que se debe copiar
+ * el fxml a la carpeta de build donde estan los .classes. en teoria en un proyecto de grade se debe hacer la copia de
+ * manera automatica al meter el fxml en resources en una ruta equivalente a la de los .java. es decir que si los
+ * .java estan en java/orondo.main entonces el fxml debe estar en resources/orondo.java. por alguna razon por mas que
+ * trate y trate nunca funciono y la unica solucion fue agregar esta configuracion a gradle, que precisamente hace que
+ * los resources se copien como debe de ser en su respectiva carpeta junto con los .classes
+ * que tiene
+ */
+sourceSets {
+    main {
+        output.resourcesDir = "build/classes/java/main"
+    }
+    test {
+        output.resourcesDir = "build/classes/test"
+    }
+}
+
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.base', 'javafx.graphics' ]
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // dependencias de ikonli, para usar fontawesome en javafx
+    //compile 'org.kordamp.ikonli:ikonli-core:11.3.4'
+    compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
+    compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4'
+
+}
