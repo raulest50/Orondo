@@ -1,8 +1,27 @@
 
-.Intro_Option{
-    -fx-background-color: white, rgb(189,218,230), white;
-    -fx-background-radius: 50%;
+
+/**
+estilizado opciones del panel de entrada, productos analitica simulacion etc
+*/
+.intro_option{
+    -fx-background-color: rgb(200,200,210);
+    /*fx-background-radius: 50%;*/
     -fx-background-insets: 0, 1, 2;
-    -fx-text-fill:  black;
-    -fx-font-size:  20px;
+    /*-fx-text-fill:  black;*/
 }
+
+.intro_option:hover{
+    -fx-background-color:  rgb(200,210,230);
+    -fx-background-insets: 0, 1, 2;
+}
+
+.intro_option:pressed{
+    -fx-background-color: rgb(150,200,190);
+    -fx-background-insets: 0, 1, 2;
+}
+
+
+/*
+The following code shows how to style all buttons who's parent is an HBox.
+.hbox  > .button {  -fx-text-fill: black;  }
+*/

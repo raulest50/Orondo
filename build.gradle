@@ -43,5 +43,29 @@ dependencies {
     //compile 'org.kordamp.ikonli:ikonli-core:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4'
-
+    
+    /**
+     * Tablesaw is Java for data science. It includes a dataframe and 
+     * a visualization library, as well as utilities for loading, transforming,
+     * filtering, and summarizing data.
+     * https://github.com/jtablesaw/tablesaw
+    */
+    //compile 'tech.tablesaw:tablesaw-core:0.36.0'
+    
+    // core libraries for java
+    //https://github.com/google/guava
+    
+    // good candidate for the simulator
+    //https://github.com/rossetti/JSL
+    
+    
+    // DES paper
+    // http://akira.ruc.dk/~keld/research/JAVASIMULATION/JAVASIMULATION-1.0/docs/Report.pdf
+    
+    // buen candidato para el simulador
+    // https://ptolemy.berkeley.edu/
+    
+    // buen candidato para el simulador pero el desarrollo parece no ser 
+    // activo
+    //http://desmoj.sourceforge.net/home.html
 }
