@@ -43,6 +43,17 @@ dependencies {
     //compile 'org.kordamp.ikonli:ikonli-core:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4'
+    compile 'org.kordamp.ikonli:ikonli-metrizeicons-pack:11.3.4'
+    compile 'org.kordamp.ikonli:ikonli-entypo-pack:11.3.4'
+    
+    
+    /** 
+     * Object to Document Mapper ODM for java and mongodb. Morphia
+     * tambien contiene el conector de mongodb.
+     * 
+     * en module-info : requires mongo.java.driver;
+    */
+    compile 'dev.morphia.morphia:core:1.5.8'
     
     /**
      * Tablesaw is Java for data science. It includes a dataframe and 

@@ -1,25 +1,59 @@
 
 
+/*
+calm 1:
+#D5E5F2
+#699EBF
+#32738C
+#F2A30F
+#D9863D
+*/
+
+/*
+#5377A6
+#024873
+#025959
+#027368
+#0D0D0D
+*/
+
+
+/*
+#F26D78
+#51278C
+#79A2F2
+#A7CFF2
+#F2F2F2
+*/
+
 /**
 estilizado opciones del panel de entrada, productos analitica simulacion etc
 */
 .intro_option{
-    -fx-background-color: rgb(200,200,210);
-    /*fx-background-radius: 50%;*/
+    -fx-background-color: #699EBF;
+    -fx-background-radius: 1%;
     -fx-background-insets: 0, 1, 2;
     /*-fx-text-fill:  black;*/
 }
 
 .intro_option:hover{
-    -fx-background-color:  rgb(200,210,230);
+    -fx-background-color:  #F2A30F;
     -fx-background-insets: 0, 1, 2;
 }
 
 .intro_option:pressed{
-    -fx-background-color: rgb(150,200,190);
+    -fx-background-color: #D9863D;
     -fx-background-insets: 0, 1, 2;
 }
 
+
+.back_pane{
+    -fx-background-color: #32738C;
+}
+
+.azul_2{
+    -fx-background-color: #699EBF;
+}
 
 /*
 The following code shows how to style all buttons who's parent is an HBox.

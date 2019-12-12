@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Orondo.mongodb;
+package Orondo.productos;
 
 /**
  *
  * @author Raul Alzate
  */
-public class Producto {
+public class modificarController {
     
 }

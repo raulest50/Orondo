@@ -1,5 +1,6 @@
 package Orondo.main;
 
+import Orondo.Styling.Styler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,10 +15,12 @@ public class MainApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource(Locations.main_fxml));
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource(Locations.main_css).toExternalForm());
-
-        stage.setTitle("Orondo from Tentactil");
+        scene.getStylesheets().add(new Styler().getClass().getResource(Locations.main_css).toExternalForm());
+        
+        stage.setTitle("ORONDO");
         stage.setScene(scene);
+        stage.setX(0);
+        stage.setY(0);
         stage.show();
     }
 

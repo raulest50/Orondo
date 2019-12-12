@@ -4,6 +4,8 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -38,6 +40,17 @@ public class Locations {
      */
     public static String productos_fxml = "productos.fxml";
     
+    /**
+     * Se pone en el centro del borderpane de productos cuando se da click
+     * al boton codificar
+     */
+    public static String codificar_fxml = "codificar.fxml";
+    
+    /**
+     * lo mismo que codificar pero para buscar y modificar productos
+     */
+    public static String modificar_fxml = "modificar.fxml";
+    
     
     /**
      * metodo para cambiar de pantalla.Con el Doc controller se accede al 
@@ -54,6 +67,19 @@ public class Locations {
         Scene scene = new Scene(FXMLLoader.load(cont.getClass().getResource(destino)));
         Stage stage = (Stage) p.getScene().getWindow();
         stage.setScene(scene);
+        
+    }
+    
+    public static void CambiarStage(BorderPane borpane, Object cont, String destino) 
+            throws IOException{
+        Pane view = FXMLLoader.load(cont.getClass().getResource(destino));
+        borpane.setCenter(view);
+    }
+    
+    public static void CambiarPanel(AnchorPane apane, Object cont, String destino) 
+            throws IOException{
+        Pane view = FXMLLoader.load(cont.getClass().getResource(destino));
+        apane.getChildren().setAll(view);
     }
     
 }
