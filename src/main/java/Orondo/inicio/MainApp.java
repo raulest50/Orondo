@@ -1,4 +1,4 @@
-package Orondo.main;
+package Orondo.inicio;
 
 import Orondo.Styling.Styler;
 import javafx.application.Application;

@@ -1,4 +1,4 @@
-package Orondo.main;
+package Orondo.inicio;
 
 //import java.net.URL;
 //import java.util.ResourceBundle;

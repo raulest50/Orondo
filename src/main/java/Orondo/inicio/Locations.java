@@ -1,4 +1,4 @@
-package Orondo.main;
+package Orondo.inicio;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;

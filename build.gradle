@@ -1,7 +1,7 @@
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
-    id 'org.beryx.jlink' version '2.12.0'
+    id 'org.beryx.jlink' version '2.20.0' // aplica application plugin de manera implicita
 }
 
 
@@ -10,29 +10,13 @@ repositories {
     jcenter()
 }
 
-mainClassName = "$moduleName/Orondo.main.MainApp"
 
-/**
- * luche el dia entero del 1 de diciembre para saber porque getClass().getResources no funcionaba cuando se
- * usa gradle pero en los proyectos de ant si funciona. al final descubri que tiene que ver con que se debe copiar
- * el fxml a la carpeta de build donde estan los .classes. en teoria en un proyecto de grade se debe hacer la copia de
- * manera automatica al meter el fxml en resources en una ruta equivalente a la de los .java. es decir que si los
- * .java estan en java/orondo.main entonces el fxml debe estar en resources/orondo.java. por alguna razon por mas que
- * trate y trate nunca funciono y la unica solucion fue agregar esta configuracion a gradle, que precisamente hace que
- * los resources se copien como debe de ser en su respectiva carpeta junto con los .classes
- * que tiene
- */
-sourceSets {
-    main {
-        output.resourcesDir = "build/classes/java/main"
-    }
-    test {
-        output.resourcesDir = "build/classes/test"
-    }
-}
+//mainClassName = "$moduleName/inicio.MainApp"
+mainClassName = "Orondo.inicio.MainApp"
+
 
 javafx {
-    version = "13"
+    version = "14"
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.base', 'javafx.graphics' ]
 }
 
@@ -54,6 +38,15 @@ dependencies {
      * en module-info : requires mongo.java.driver;
     */
     compile 'dev.morphia.morphia:core:1.5.8'
+    
+    /**
+     *Para evitar que salgan estos warnings:
+     * SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+     *  SLF4J: Defaulting to no-operation (NOP) logger implementation
+     *  SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+    */
+    //compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.12.1'
+    
     
     /**
      * Tablesaw is Java for data science. It includes a dataframe and 
@@ -80,3 +73,38 @@ dependencies {
     // activo
     //http://desmoj.sourceforge.net/home.html
 }
+
+
+jlink {
+    launcher{
+        name = 'Orondo' 
+    }
+}
+
+
+
+/**
+ * luche el dia entero del 1 de diciembre para saber porque getClass().getResources no funcionaba cuando se
+ * usa gradle pero en los proyectos de ant si funciona. al final descubri que tiene que ver con que se debe copiar
+ * el fxml a la carpeta de build donde estan los .classes. en teoria en un proyecto de gradle se debe hacer la copia de
+ * manera automatica al meter el fxml en resources en una ruta equivalente a la de los .java. es decir que si los
+ * .java estan en java/orondo.main entonces el fxml debe estar en resources/orondo.java. por alguna razon por mas que
+ * trate y trate nunca funciono y la unica solucion fue agregar esta configuracion a gradle, que precisamente hace que
+ * los resources se copien como debe de ser en su respectiva carpeta junto con los .classes
+ * que tiene
+ * 
+ * ...
+ * 
+ * por alguna razon ya no es necesario hacer esto, pero lo dejo como referencia.
+ * tal vez sea por la actualizacion de gradle de 6.0 a 6.5
+ */
+/*
+sourceSets {
+    main {
+        output.resourcesDir = "build/classes/java/main"
+    }
+    test {
+        output.resourcesDir = "build/classes/test"
+    }
+} 
+*/

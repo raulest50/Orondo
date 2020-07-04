@@ -55,10 +55,10 @@ public class codificarController {
         String codigo = TextField_Codigo.getText();
         String nombre = TextField_Nombre.getText();
         Double costo = Double.parseDouble(TextField_Costo.getText());
-        Double pvmayor = Double.parseDouble(TextField_Costo.getText());
-        Double pvpublico = Double.parseDouble(TextField_Costo.getText());
-        Double stock = Double.parseDouble(TextField_Costo.getText());
-        Double iva = Double.parseDouble(TextField_Costo.getText());
+        Double pvmayor = Double.parseDouble(TextField_PvMayor.getText());
+        Double pvpublico = Double.parseDouble(TextField_PvPublico.getText());
+        Double stock = Double.parseDouble(TextField_StockInit.getText());
+        Double iva = Double.parseDouble(TextField_Iva.getText());
         
         Producto p = new Producto(codigo, nombre, "", costo, pvmayor, pvpublico,iva);
         dbMorf db = new dbMorf();

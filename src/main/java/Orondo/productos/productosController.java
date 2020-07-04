@@ -6,8 +6,8 @@
 package Orondo.productos;
 
 import Orondo.Styling.Styler;
-import Orondo.main.Locations;
-import Orondo.main.mainController;
+import Orondo.inicio.Locations;
+import Orondo.inicio.mainController;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
