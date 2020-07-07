@@ -16,7 +16,7 @@ public class dbMorf {
     public Datastore getDataStore(String dataBaseName){
         Morphia morphia = new Morphia();
         //morphia.mapPackage("com.baeldung.morphia");
-        morphia.mapPackage("Orondo.OrondoDb");
+        //morphia.mapPackage("Orondo.OrondoDb");
         Datastore datastore = morphia.createDatastore(new MongoClient(), dataBaseName);
         datastore.ensureIndexes();
         return datastore;

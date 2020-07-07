@@ -30,16 +30,19 @@ module Orondo {
     requires core;
     requires proxytoys;
     requires slf4j.api;
-    
     // quito el warning de slf4j
     // pero se genera error ERROR StatusLogger No Log4j 2 configuration file found
     //requires org.apache.logging.log4j;
+    
+    requires json.simple;
     
     
     // si no se agrega este modulo ocurre una excepcion cuando se instancia un
     // objeto de la clase Morphia con new Morphia()
     requires java.sql;
     //***************
+    requires java.prefs; // java preferences
+    requires java.logging;
     
     
     opens Orondo.productos to javafx.fxml;

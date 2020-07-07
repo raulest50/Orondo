@@ -15,33 +15,40 @@ public class Producto {
     
     @Id
     public String codigo;
-    public String nombre;
+    
     public String descripcion;
-    public Double costo;
+    
+    public int costo;
     
     /**
      * precio de venta para tienda o pormmayor
      */
-    public Double pv_mayor;
+    public int pv_mayor;
     
     /**
      * precio de venta al publico
      */
-    public Double pv_publico;
+    public int pv_publico;
     
     /**
      * si no tiene iva se pone 0
      */
     public Double iva;
+    
+    public String last_updt;
+    
+    public String keywords;
 
-    public Producto(String codigo, String nombre, String descripcion, Double costo, Double pv_mayor, Double pv_publico, Double iva) {
+    public Producto(String codigo, String descripcion, int costo,
+            int pv_mayor, int pv_publico, Double iva, String last_updt, String keywords) {
         this.codigo = codigo;
-        this.nombre = nombre;
         this.descripcion = descripcion;
         this.costo = costo;
         this.pv_mayor = pv_mayor;
         this.pv_publico = pv_publico;
         this.iva = iva;
+        this.last_updt = last_updt;
+        this.keywords = keywords;
     }
     
 }

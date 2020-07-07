@@ -39,6 +39,12 @@ dependencies {
     */
     compile 'dev.morphia.morphia:core:1.5.8'
     
+    
+    // tomado de https://bintray.com/bintray/jcenter/com.googlecode.json-simple%3Ajson-simple/1.1
+    // intente varios de jcenter que proveian json.simple y no todos sirven porque sale un urror
+    // con los paquetes.
+    implementation 'com.googlecode.json-simple:json-simple:1.1'
+    
     /**
      *Para evitar que salgan estos warnings:
      * SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
