@@ -10,7 +10,7 @@ import dev.morphia.annotations.Id;
  *
  * Representacion de un producto
  */
-@Entity("productos")
+@Entity(value="productos", noClassnameStored=true)
 public class Producto {
     
     @Id

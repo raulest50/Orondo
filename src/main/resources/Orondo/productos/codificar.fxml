@@ -43,7 +43,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="TextField_Codigo">
+                              <TextField fx:id="TextField_Codigo" onAction="#onActionTF_Codigo">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -82,7 +82,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="TextField_Descripcion" prefHeight="39.0" prefWidth="400.0">
+                              <TextField fx:id="TextField_Descripcion" onAction="#onActionTF_Descripcion" prefHeight="39.0" prefWidth="400.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -109,7 +109,7 @@
                                     <Insets right="10.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="TextField_Costo" prefHeight="25.0" prefWidth="150.0">
+                              <TextField fx:id="TextField_Costo" onAction="#onActionTF_Costo" prefHeight="25.0" prefWidth="150.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -129,7 +129,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="TextField_PvMayor" prefHeight="25.0" prefWidth="150.0">
+                              <TextField fx:id="TextField_PvMayor" onAction="#onActionTF_PVxMayor" prefHeight="25.0" prefWidth="150.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -149,7 +149,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="TextField_PvPublico" prefHeight="25.0" prefWidth="150.0">
+                              <TextField fx:id="TextField_PvPublico" onAction="#onActionTF_PVPublico" prefHeight="25.0" prefWidth="150.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -176,7 +176,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="TextField_Iva" prefHeight="39.0" prefWidth="100.0">
+                              <TextField fx:id="TextField_Iva" onAction="#onActionTF_IVA" prefHeight="39.0" prefWidth="100.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -193,7 +193,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="TextField_StockInit" prefHeight="39.0" prefWidth="150.0">
+                              <TextField fx:id="TextField_StockInit" onAction="#onActionTF_StockInit" prefHeight="39.0" prefWidth="150.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -221,7 +221,14 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextArea fx:id="TextArea_keywords" />
+                        <TextArea fx:id="TextArea_keywords" prefHeight="200.0" prefWidth="500.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </TextArea>
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />

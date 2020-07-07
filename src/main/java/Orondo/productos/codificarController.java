@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
+
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
@@ -96,9 +97,13 @@ public class codificarController {
             int costo = Integer.parseInt(TextField_Costo.getText());
             int pvmayor = Integer.parseInt(TextField_PvMayor.getText());
             int pvpublico = Integer.parseInt(TextField_PvPublico.getText());
-            Double stock = Double.parseDouble(TextField_StockInit.getText());
-            Double iva = Double.parseDouble(TextField_Iva.getText());
             
+            Double stock;// si stock se deja vacio se asume 0
+            String strStock = TextField_StockInit.getText();
+            if(strStock.isBlank() || strStock.isEmpty()) stock = 0.0;
+            else stock = Double.parseDouble(TextField_StockInit.getText());
+            
+            Double iva = Double.parseDouble(TextField_Iva.getText());
             String last_updt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ");
             String keywords = TextArea_keywords.getText();
             
@@ -152,4 +157,35 @@ public class codificarController {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage());
         }
     }
+    
+    //los siguientes metodos permiten pasar entre los textfield al pulsar enter
+    @FXML
+    void onActionTF_Codigo(ActionEvent event){
+        TextField_Descripcion.requestFocus();
+    }
+    @FXML
+    void onActionTF_Descripcion(ActionEvent event){
+        TextField_Costo.requestFocus();
+    }
+    @FXML
+    void onActionTF_Costo(ActionEvent event){
+        TextField_PvMayor.requestFocus();
+    }
+    @FXML
+    void onActionTF_PVxMayor(ActionEvent event){
+        TextField_PvPublico.requestFocus();
+    }
+    @FXML
+    void onActionTF_PVPublico(ActionEvent event){
+        TextField_Iva.requestFocus();
+    }
+    @FXML
+    void onActionTF_IVA(ActionEvent event){
+        TextField_StockInit.requestFocus();
+    }
+    @FXML
+    void onActionTF_StockInit(ActionEvent event){
+        TextArea_keywords.requestFocus();
+    }
+    
 }
