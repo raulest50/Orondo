@@ -1,9 +1,12 @@
 package Orondo.OrondoDb;
 
+
+import com.mongodb.DB;
 import com.mongodb.MongoClient;
-import dev.morphia.Datastore;
-import dev.morphia.Morphia;
-import dev.morphia.query.Query;
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
+import org.jongo.MongoCursor;
+
 
 /**
  *
@@ -13,23 +16,22 @@ public class dbMorf {
     
     
     private final String dataBaseName = "Retail";
+    private final String productosCollection = "productos";
     
-    public Datastore getDataStore(String dataBaseName){
-        Morphia morphia = new Morphia();
-        //morphia.mapPackage("com.baeldung.morphia");
-        //morphia.mapPackage("Orondo.OrondoDb");
-        Datastore datastore = morphia.createDatastore(new MongoClient(), dataBaseName);
-        datastore.ensureIndexes();
-        return datastore;
+    public MongoCollection getProductosCollection(){
+        DB db = new MongoClient().getDB(dataBaseName);
+        Jongo jongo = new Jongo(db);
+        MongoCollection pcoll = jongo.getCollection(productosCollection);
+        return pcoll;
     }
     
     public void SaveProduct(Producto p){
-        this.getDataStore(dataBaseName).save(p);
+        this.getProductosCollection().save(p);
     }
     
     public void GetAllProducts(){
-        Query<Producto> query = getDataStore(dataBaseName).find(Producto.class);
-        
+        MongoCollection pcoll = this.getProductosCollection();
+        MongoCursor<Producto> all = pcoll.find("{}").as(Producto.class);
     }
     
     /**

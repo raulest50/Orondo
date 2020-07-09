@@ -1,7 +1,6 @@
 package Orondo.OrondoDb;
 
-import dev.morphia.annotations.Entity;
-import dev.morphia.annotations.Id;
+import org.jongo.marshall.jackson.oid.MongoId;
 
 
 /**
@@ -10,10 +9,10 @@ import dev.morphia.annotations.Id;
  *
  * Representacion de un producto
  */
-@Entity(value="productos", noClassnameStored=true)
+
 public class Producto {
     
-    @Id
+    @MongoId
     public String codigo;
     
     public String descripcion;

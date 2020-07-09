@@ -31,14 +31,14 @@ dependencies {
     compile 'org.kordamp.ikonli:ikonli-entypo-pack:11.3.4'
     
     
-    /** 
-     * Object to Document Mapper ODM for java and mongodb. Morphia
-     * tambien contiene el conector de mongodb.
-     * 
-     * en module-info : requires mongo.java.driver;
-    */
-    compile 'dev.morphia.morphia:core:1.5.8'
-    //compile ('dev.morphia.morphia:morphia-core:2.0.0')
+    // https://mvnrepository.com/artifact/org.jongo/jongo
+    compile group: 'org.jongo', name: 'jongo', version: '1.4.1'
+    
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.6'
+
+
+
     
     
     // tomado de https://bintray.com/bintray/jcenter/com.googlecode.json-simple%3Ajson-simple/1.1
