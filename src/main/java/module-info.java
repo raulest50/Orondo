@@ -25,10 +25,10 @@ module Orondo {
     // lo empezo a pedir despues de usar @validations 
     // haciendo import dev.morphia.annotations.Validation parece que tambien
     // hace parte de morphia
-    requires io.github.classgraph;
-    // tambien parecen que son de morphia
-    requires core;
-    requires proxytoys;
+    //requires io.github.classgraph;
+    
+    
+    
     requires slf4j.api;
     // quito el warning de slf4j
     // pero se genera error ERROR StatusLogger No Log4j 2 configuration file found

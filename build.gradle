@@ -38,6 +38,7 @@ dependencies {
      * en module-info : requires mongo.java.driver;
     */
     compile 'dev.morphia.morphia:core:1.5.8'
+    //compile ('dev.morphia.morphia:morphia-core:2.0.0')
     
     
     // tomado de https://bintray.com/bintray/jcenter/com.googlecode.json-simple%3Ajson-simple/1.1

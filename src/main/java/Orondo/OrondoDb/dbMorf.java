@@ -3,6 +3,7 @@ package Orondo.OrondoDb;
 import com.mongodb.MongoClient;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
+import dev.morphia.query.Query;
 
 /**
  *
@@ -24,6 +25,18 @@ public class dbMorf {
     
     public void SaveProduct(Producto p){
         this.getDataStore(dataBaseName).save(p);
+    }
+    
+    public void GetAllProducts(){
+        Query<Producto> query = getDataStore(dataBaseName).find(Producto.class);
+        
+    }
+    
+    /**
+     * crea un respaldo de la base de datos como archivo .json
+     */
+    public void BackupJson(){
+        
     }
     
 }
