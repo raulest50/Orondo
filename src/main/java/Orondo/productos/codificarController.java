@@ -1,7 +1,7 @@
 package Orondo.productos;
 
 import Orondo.OrondoDb.Producto;
-import Orondo.OrondoDb.dbMorf;
+import Orondo.OrondoDb.dbMapper;
 import Orondo.Styling.Styler;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -108,7 +108,7 @@ public class codificarController {
             String keywords = TextArea_keywords.getText();
             
             Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
-            dbMorf db = new dbMorf();
+            dbMapper db = new dbMapper();
             db.SaveProduct(p);
         }
     }
@@ -134,7 +134,7 @@ public class codificarController {
             JSONArray listaProductosJson = (JSONArray) obj;
              
             //Iterate over employee array
-            listaProductosJson.forEach( jsonObj -> {
+            listaProductosJson.forEach(jsonObj -> {
                 JSONObject pjson = (JSONObject) jsonObj; // producto en formato json
                 
                 String codigo = (String) pjson.get("codigo");
@@ -147,7 +147,7 @@ public class codificarController {
                 String keywords = (String) pjson.get("Familia");
                 
                 Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
-                dbMorf db = new dbMorf();
+                dbMapper db = new dbMapper();
                 db.SaveProduct(p);
                 });
  

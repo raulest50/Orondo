@@ -9,7 +9,7 @@ public class Validador {
     public static boolean ValidarIngresoProducto(Producto p){
         boolean r = true;
         String msg = "";
-        if( p.codigo.isBlank() || p.codigo.isEmpty()) r=false;
+        if( p._id.isBlank() || p._id.isEmpty()) r=false;
         return r;
     }
     

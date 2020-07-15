@@ -3,6 +3,8 @@ package Orondo.OrondoDb;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
@@ -12,7 +14,7 @@ import org.jongo.MongoCursor;
  *
  * @author Raul Alzate
  */
-public class dbMorf {
+public class dbMapper {
     
     
     private final String dataBaseName = "Retail";
@@ -29,9 +31,21 @@ public class dbMorf {
         this.getProductosCollection().save(p);
     }
     
-    public void GetAllProducts(){
+    /**
+     * trae todos los productos de la base de datos.
+     * @return 
+     */
+    public ArrayList<Producto> GetAllProducts(){
+        
+        ArrayList<Producto> r = new ArrayList<>();
+        
         MongoCollection pcoll = this.getProductosCollection();
         MongoCursor<Producto> all = pcoll.find("{}").as(Producto.class);
+        Iterator rite = all.iterator();
+        while(rite.hasNext()){
+            r.add((Producto) rite.next());
+        }
+        return r;
     }
     
     /**

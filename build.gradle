@@ -46,6 +46,41 @@ dependencies {
     // con los paquetes.
     implementation 'com.googlecode.json-simple:json-simple:1.1'
     
+    
+    // para hacer interesantes grafcos en 3d 
+    // https://mvnrepository.com/artifact/org.jfree/org.jfree.chart3d
+    compile group: 'org.jfree', name: 'org.jfree.chart3d', version: '2.0'
+    
+    
+    /*
+     * https://github.com/jfoenixadmin/JFoenix inputfields
+     * https://github.com/FXyz/FXyz 3d drawing javafx
+     * https://github.com/jidesoft/jidefx-oss inputfields
+     * https://kordamp.org/jsilhouette/#_links additional shapes for javafx
+     * https://github.com/HanSolo/tilesfx dash boards elements
+     * http://miglayout.com/ easy layout javafx
+     * https://github.com/dooApp/FXForm2 javafx form generation
+     * https://github.com/dicolar/jbootx bootstrap for javafx
+     * https://github.com/Gleidson28/DashboardFx fx dashboard
+     * https://github.com/codecentric/javafxsvg  javafx svg
+     * https://github.com/RobertBColton/DockFX javafx docking support
+     * https://github.com/stefaneidelloth/javafx-d3 d3.js en fx
+     * https://github.com/miho/VWorkflows for simulink like apps
+     * https://github.com/icela/FriceEngine promising game engine
+     * https://github.com/cping/LGame another prmising game engine
+     * https://github.com/asciidocfx/AsciidocFX interesting javafx app for creating pdf and other docs
+     * https://github.com/Typhon0/AnimateFX ready to use javafx animations
+     * https://github.com/dlsc-software-consulting-gmbh/CalendarFX calendario sofisticado fx
+     * https://github.com/extjfx/extjfx javafx charts
+     * https://github.com/data2viz/data2viz data visualization toolbox
+     * https://github.com/jhsheets/javafx-filterable-table-columns tablecolumns widgets
+     * https://github.com/privatejava/javafx-autocomplete-field javafx autocomplete textfield
+     * http://graphstream-project.org/ graphstream
+     * https://github.com/controlsfx/controlsfx controls para fx
+     * 
+     */
+
+    
     /**
      *Para evitar que salgan estos warnings:
      * SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".

@@ -59,3 +59,4 @@ estilizado opciones del panel de entrada, productos analitica simulacion etc
 The following code shows how to style all buttons who's parent is an HBox.
 .hbox  > .button {  -fx-text-fill: black;  }
 */
+
