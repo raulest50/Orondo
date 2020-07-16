@@ -33,6 +33,8 @@ module Orondo {
     requires java.prefs; // java preferences
     requires java.logging;
     
+    requires better.strings; // para poder hacer string interpolation en java
+    
     
     opens Orondo.productos to javafx.fxml;
     opens Orondo.inicio to javafx.fxml;

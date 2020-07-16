@@ -52,6 +52,14 @@ dependencies {
     compile group: 'org.jfree', name: 'org.jfree.chart3d', version: '2.0'
     
     
+    // https://mvnrepository.com/artifact/com.antkorwin/better-strings
+    // para permitir string interpolations como en javascript y dart
+    // si var a=1; var b = 3; var c = 5; el siguiente string se transforma
+    // en tiempo de compilacion a : 
+    // "${a}+${b}=${c}" => "1+3=5"
+    compile group: 'com.antkorwin', name: 'better-strings', version: '0.4'
+
+    
     /*
      * https://github.com/jfoenixadmin/JFoenix inputfields
      * https://github.com/FXyz/FXyz 3d drawing javafx

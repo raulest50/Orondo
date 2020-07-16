@@ -48,11 +48,73 @@ public class dbMapper {
         return r;
     }
     
+    
+    /**
+     * la busqueda por codigo exacto solo puede retornar un producto o ninguno.
+     * sin embargo se retorna en un arraylist para usar el size, si es 0
+     * es porque el producto no se encontro.
+     * https://beginnersbook.com/2017/10/java-string-format-method/
+     * https://dzone.com/articles/java-string-format-examples
+     * @param _id
+     * @return 
+     */
+    public ArrayList<Producto> GetProductById(String _id){
+        
+        ArrayList<Producto> r = new ArrayList<>();
+        
+        String q = "{_id: '%1s'}"; // string formting. ojala en futuras verciones
+        q = String.format(q, "x"); // de java agreguen string interpolation de alguna manera como en javascript.
+        
+        MongoCollection pcoll = this.getProductosCollection();
+        MongoCursor<Producto> all = pcoll.find(q).as(Producto.class);
+        Iterator rite = all.iterator();
+        while(rite.hasNext()){
+            r.add((Producto) rite.next());
+        }
+        return r;
+    }
+    
+    
+    /**
+     * from https://docs.mongodb.com/manual/reference/operator/query/all/
+     * The $all operator selects the documents where the value of a field is an 
+     * array that contains all the specified elements.
+     * 
+     * metodo que devuelve los documentos que su descripcion contienen todas las
+     * palabras separadas por whitespace " " en el String descri
+     * @param descri
+     * @return 
+     */
+    public ArrayList<Producto> GetByDescrpt(String descri){
+        
+        ArrayList<Producto> r = new ArrayList<>();
+        String arg = "";
+        
+        String[] kw = descri.split(" ");
+        for(String x: kw){
+            arg += String.format("{'descripcion':{$regex:'.*%1s.*', $options:'i'}},", x);
+        }
+        arg = arg.substring(0, arg.length() - 1);// para remover la ultima coma
+        
+        String q = "{$and:[%1s]}";
+        q = String.format(q, arg);
+        
+        MongoCollection pcoll = this.getProductosCollection();
+        MongoCursor<Producto> all = pcoll.find(q).as(Producto.class);
+        Iterator rite = all.iterator();
+        while(rite.hasNext()){
+            r.add((Producto) rite.next());
+        }
+        return r;
+    }
+    
+    
     /**
      * crea un respaldo de la base de datos como archivo .json
      */
-    public void BackupJson(){
+    public void BackupJson(String dirfol){
         
+        ArrayList<Producto> all = this.GetAllProducts();
     }
     
 }
