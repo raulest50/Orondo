@@ -1,4 +1,8 @@
 
+/*
+#dff2d5 green
+*/
+
 
 /*
 calm 1:
@@ -53,6 +57,10 @@ estilizado opciones del panel de entrada, productos analitica simulacion etc
 
 .azul_2{
     -fx-background-color: #699EBF;
+}
+
+.verde_c{
+    -fx-background-color: #dff2d5;
 }
 
 .combo-box-popup {

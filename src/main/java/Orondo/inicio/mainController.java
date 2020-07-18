@@ -4,11 +4,15 @@ package Orondo.inicio;
 //import java.util.ResourceBundle;
 import Orondo.Styling.Styler;
 import Orondo.productos.productosController;
+import Orondo.ventas.ventasController;
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 
@@ -39,14 +43,48 @@ public class mainController {
     @FXML
     private VBox VBox_Configuracion;
     
+    @FXML 
+    private VBox VBox_Ventas;
+    
     @FXML
     public AnchorPane AnchorPane_main;
+    
+    //controladores padre de cada seccion
+    public productosController prodcont;
+    public ventasController vencont;
+    
+    // al guardar las instacias de las scenas se logra la persistencia del 
+    // estado de las UI mientras que el usuario navega entre escenas
+    // scene padre de cada seccion 
+    public Scene scn_productos;
+    public Scene scn_ventas;
+    // stage principal y scena principal
+    public Stage mainstage;
+    public Scene scn_main;
 
-    public void initialize() {
+    @FXML
+    public void initialize() throws IOException {
+        //se agrega animacion on hover de los botones de la ventana principal
         Styler.AddFadingAnimation_onHover(VBox_Productos);
         Styler.AddFadingAnimation_onHover(VBox_Analitica);
         Styler.AddFadingAnimation_onHover(VBox_Simulador);
         Styler.AddFadingAnimation_onHover(VBox_Configuracion);
+        Styler.AddFadingAnimation_onHover(VBox_Ventas);
+        
+        // en productosLoader.load() se llama al constructor de 
+        // productosController, alli se inicia cada uno de los panes que son
+        // como sub scenas que iran en el centro del BorderPane
+        FXMLLoader productosLoader = new FXMLLoader(productosController.class.getResource(Locations.productos_fxml));
+        scn_productos = new Scene(productosLoader.load());
+        prodcont = productosLoader.getController();
+        prodcont.maincont = this; // se envia una instancia de este controlador
+        // para permitir comunicacion entre scenas y facilitar regreso al 
+        //main scene.
+        
+        FXMLLoader ventasLoader = new FXMLLoader(ventasController.class.getResource(Locations.ventas_fxml));
+        scn_ventas = new Scene(ventasLoader.load());
+        vencont = ventasLoader.getController();
+        vencont.maincont = this;
     }
     
     /**
@@ -56,8 +94,14 @@ public class mainController {
      */
     @FXML
     void onClick_VBox_Productos(MouseEvent event) throws IOException {
-        Locations.CambiarStage(AnchorPane_main, new productosController(), Locations.productos_fxml);
+        mainstage.setScene(scn_productos);
     }
+    
+    @FXML
+    void onClick_VBox_Ventas(MouseEvent event) throws IOException{
+        mainstage.setScene(scn_ventas);
+    }
+    
     
     
 }

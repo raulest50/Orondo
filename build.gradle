@@ -29,6 +29,7 @@ dependencies {
     compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-metrizeicons-pack:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-entypo-pack:11.3.4'
+    compile 'org.kordamp.ikonli:ikonli-openiconic-pack:11.5.0'
     
     
     // https://mvnrepository.com/artifact/org.jongo/jongo
@@ -58,6 +59,7 @@ dependencies {
     // en tiempo de compilacion a : 
     // "${a}+${b}=${c}" => "1+3=5"
     compile group: 'com.antkorwin', name: 'better-strings', version: '0.4'
+    //annotationProcessor 'com.antkorwin:better-strings:0.4'
 
     
     /*

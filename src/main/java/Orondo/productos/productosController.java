@@ -10,10 +10,13 @@ import Orondo.inicio.Locations;
 import Orondo.inicio.mainController;
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+
 
 /**
  *
@@ -42,6 +45,19 @@ public class productosController {
     @FXML
     public VBox VBox_Modificar;
     
+    public modificarController modcont = new modificarController();
+    public codificarController codcont = new codificarController();
+    
+    public Pane pane_modificar;
+    public Pane pane_codificar;
+    
+    public mainController maincont;
+
+    public productosController() throws IOException {
+        this.pane_modificar = (Pane) FXMLLoader.load(modcont.getClass().getResource(Locations.modificar_fxml));
+        this.pane_codificar = (Pane) FXMLLoader.load(modcont.getClass().getResource(Locations.codificar_fxml));
+    }
+    
     public void initialize() {
         Styler.AddFadingAnimation_onHover(VBox_Atras);
         Styler.AddFadingAnimation_onHover(VBox_Codificar);
@@ -50,18 +66,17 @@ public class productosController {
     
     @FXML
     public void onClick_VBox_Atras(MouseEvent event) throws IOException {
-        Locations.CambiarStage(AnchorPane_bp, new mainController(), Locations.main_fxml);
+        maincont.mainstage.setScene(maincont.scn_main);
     }
 
     @FXML
     public void onClick_VBox_Codificar(MouseEvent event) throws IOException {
-        Locations.CambiarStage(BorderPane_bp, new codificarController(), Locations.codificar_fxml);
-        //Locations.CambiarStage(BorderPane_bp, new codificarController(), Locations.codificar_fxml);
+        BorderPane_bp.setCenter(pane_codificar);
     }
 
     @FXML
     public void onClick_VBox_Modificar(MouseEvent event) throws IOException {
-        Locations.CambiarStage(BorderPane_bp, new modificarController(), Locations.modificar_fxml);
+        BorderPane_bp.setCenter(pane_modificar);
     }
     
 }

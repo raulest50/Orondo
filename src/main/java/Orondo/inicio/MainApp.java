@@ -12,10 +12,15 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        Parent root = FXMLLoader.load(getClass().getResource(Locations.main_fxml));
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Locations.main_fxml));
+        Parent root = loader.load();
+        mainController maincont = loader.getController();
+        
         Scene scene = new Scene(root);
         scene.getStylesheets().add(new Styler().getClass().getResource(Locations.main_css).toExternalForm());
+        
+        maincont.mainstage = stage;
+        maincont.scn_main = scene;
         
         stage.setTitle("ORONDO");
         stage.setScene(scene);

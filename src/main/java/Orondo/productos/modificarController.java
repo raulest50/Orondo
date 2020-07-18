@@ -112,6 +112,7 @@ public class modificarController {
                 lista = dbm.GetByDescrpt(b);
                 break;
             case B_LAST_CODE:
+                lista = dbm.getPrdByLastCod(b);
                 break;
         }
         

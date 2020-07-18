@@ -52,34 +52,9 @@ public class Locations {
     public static String modificar_fxml = "modificar.fxml";
     
     
-    /**
-     * metodo para cambiar de pantalla.Con el Doc controller se accede al 
-     * respectivo folder de la carpeta de build por medio de getClass.getResource. 
-     * destino es el nombre del resource, el cual esta guardado en esta clase
-     * como static String.
-     * @param p : AnchorPane del actual FXLM o FXML de origen
-     * @param cont : controlador del FXML al que se desea cambiar o destino
-     * @param destino : nombre del FXML al que se desea cambiar o destino
-     * @throws java.io.IOException
-     */
-    public static void CambiarStage(AnchorPane p, Object cont, String destino) 
-            throws IOException{
-        Scene scene = new Scene(FXMLLoader.load(cont.getClass().getResource(destino)));
-        Stage stage = (Stage) p.getScene().getWindow();
-        stage.setScene(scene);
-        
-    }
+    public static String ventas_fxml = "ventas.fxml";
     
-    public static void CambiarStage(BorderPane borpane, Object cont, String destino) 
-            throws IOException{
-        Pane view = FXMLLoader.load(cont.getClass().getResource(destino));
-        borpane.setCenter(view);
-    }
+    public static String hacer_ventas_fxml = "hacer_ventas.fxml";
     
-    public static void CambiarPanel(AnchorPane apane, Object cont, String destino) 
-            throws IOException{
-        Pane view = FXMLLoader.load(cont.getClass().getResource(destino));
-        apane.getChildren().setAll(view);
-    }
     
 }

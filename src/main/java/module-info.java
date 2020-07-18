@@ -37,11 +37,14 @@ module Orondo {
     
     
     opens Orondo.productos to javafx.fxml;
+    opens Orondo.ventas to javafx.fxml;
     opens Orondo.inicio to javafx.fxml;
+    
     exports Orondo.inicio;
     exports Orondo.productos;
     exports Orondo.OrondoDb;
     exports Orondo.Styling;
+    
     
     // informacion practica y teorica sobre javamodules
     // https://livebook.manning.com/book/the-java-module-system/about-this-book/

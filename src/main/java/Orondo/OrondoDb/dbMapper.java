@@ -16,7 +16,6 @@ import org.jongo.MongoCursor;
  */
 public class dbMapper {
     
-    
     private final String dataBaseName = "Retail";
     private final String productosCollection = "productos";
     
@@ -36,16 +35,7 @@ public class dbMapper {
      * @return 
      */
     public ArrayList<Producto> GetAllProducts(){
-        
-        ArrayList<Producto> r = new ArrayList<>();
-        
-        MongoCollection pcoll = this.getProductosCollection();
-        MongoCursor<Producto> all = pcoll.find("{}").as(Producto.class);
-        Iterator rite = all.iterator();
-        while(rite.hasNext()){
-            r.add((Producto) rite.next());
-        }
-        return r;
+        return getQuery("{}");
     }
     
     
@@ -65,13 +55,7 @@ public class dbMapper {
         String q = "{_id: '%1s'}"; // string formting. ojala en futuras verciones
         q = String.format(q, "x"); // de java agreguen string interpolation de alguna manera como en javascript.
         
-        MongoCollection pcoll = this.getProductosCollection();
-        MongoCursor<Producto> all = pcoll.find(q).as(Producto.class);
-        Iterator rite = all.iterator();
-        while(rite.hasNext()){
-            r.add((Producto) rite.next());
-        }
-        return r;
+        return getQuery(q);
     }
     
     
@@ -86,10 +70,7 @@ public class dbMapper {
      * @return 
      */
     public ArrayList<Producto> GetByDescrpt(String descri){
-        
-        ArrayList<Producto> r = new ArrayList<>();
         String arg = "";
-        
         String[] kw = descri.split(" ");
         for(String x: kw){
             arg += String.format("{'descripcion':{$regex:'.*%1s.*', $options:'i'}},", x);
@@ -99,6 +80,27 @@ public class dbMapper {
         String q = "{$and:[%1s]}";
         q = String.format(q, arg);
         
+        return getQuery(q);
+    }
+    
+    /**
+     * encuentra los productos cuyo codigo de barras termina en
+     * los digitos especificados por el sting b
+     * @return 
+     */
+    public ArrayList<Producto> getPrdByLastCod(String b){
+        String q = "{_id:{$regex:'.*%1s$'}}";
+        q = String.format(q, b);
+        return getQuery(q);
+    }
+    
+    /**
+     * toma un string q y hace el query a la coleccion de productos usando jongo.
+     * @param q
+     * @return 
+     */
+    public ArrayList<Producto> getQuery(String q){
+        ArrayList<Producto> r = new ArrayList<>();
         MongoCollection pcoll = this.getProductosCollection();
         MongoCursor<Producto> all = pcoll.find(q).as(Producto.class);
         Iterator rite = all.iterator();
