@@ -3,6 +3,8 @@ package Orondo.OrondoDb;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.jongo.Jongo;
@@ -28,6 +30,17 @@ public class dbMapper {
     
     public void SaveProduct(Producto p){
         this.getProductosCollection().save(p);
+    }
+    
+    public void UpdateProducto(Producto p, String _id){
+        
+        MongoCollection Productos = this.getProductosCollection();
+        
+        if(_id.equals(p._id)) Productos.update("{_id: '${_id}'}").with(p);
+        else{
+            Productos.remove("{_id: '${_id}'}");
+            Productos.save(p);
+        }
     }
     
     /**
@@ -69,7 +82,7 @@ public class dbMapper {
      * @param descri
      * @return 
      */
-    public ArrayList<Producto> GetByDescrpt(String descri){
+    public ArrayList<Producto> GetByDescripcion(String descri){
         String arg = "";
         String[] kw = descri.split(" ");
         for(String x: kw){
@@ -117,6 +130,14 @@ public class dbMapper {
     public void BackupJson(String dirfol){
         
         ArrayList<Producto> all = this.GetAllProducts();
+    }
+    
+    /**
+     * timestamp truncado
+     * @return 
+     */
+    public String now(){
+        return LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ");
     }
     
 }

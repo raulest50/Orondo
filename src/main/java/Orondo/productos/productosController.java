@@ -67,6 +67,7 @@ public class productosController {
     @FXML
     public void onClick_VBox_Atras(MouseEvent event) throws IOException {
         maincont.mainstage.setScene(maincont.scn_main);
+        maincont.Maximizar();
     }
 
     @FXML

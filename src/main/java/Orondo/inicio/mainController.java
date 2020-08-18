@@ -8,10 +8,12 @@ import Orondo.ventas.ventasController;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -61,6 +63,8 @@ public class mainController {
     // stage principal y scena principal
     public Stage mainstage;
     public Scene scn_main;
+    
+    Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
     @FXML
     public void initialize() throws IOException {
@@ -75,6 +79,7 @@ public class mainController {
         // productosController, alli se inicia cada uno de los panes que son
         // como sub scenas que iran en el centro del BorderPane
         FXMLLoader productosLoader = new FXMLLoader(productosController.class.getResource(Locations.productos_fxml));
+        //scn_productos = new Scene(productosLoader.load(),screenSize.getWidth(), screenSize.getHeight());
         scn_productos = new Scene(productosLoader.load());
         prodcont = productosLoader.getController();
         prodcont.maincont = this; // se envia una instancia de este controlador
@@ -95,13 +100,22 @@ public class mainController {
     @FXML
     void onClick_VBox_Productos(MouseEvent event) throws IOException {
         mainstage.setScene(scn_productos);
+        Maximizar();
     }
     
     @FXML
     void onClick_VBox_Ventas(MouseEvent event) throws IOException{
         mainstage.setScene(scn_ventas);
+        Maximizar();
     }
     
-    
-    
+    /***
+     * https://stackoverflow.com/questions/38599588/javafx-stage-setmaximized-only-works-once-on-mac-osx-10-9-5/38606533
+     * siempre se debe poner primero false y luego true, de lo contrario
+     * solo funcionara la primera vez para maximizar la aplicacion.
+     */
+    public void Maximizar(){
+        mainstage.setMaximized(false);
+        mainstage.setMaximized(true);
+    }
 }

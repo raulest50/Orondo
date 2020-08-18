@@ -2,7 +2,10 @@ package Orondo.productos;
 
 import Orondo.OrondoDb.Producto;
 import Orondo.OrondoDb.dbMapper;
-import Orondo.inicio.InfoDialogs;
+import Orondo.inicio.GenericDialogs;
+import Orondo.inicio.Locations;
+import java.io.IOException;
+
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
@@ -10,12 +13,18 @@ import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
@@ -109,7 +118,7 @@ public class modificarController {
                 lista = dbm.GetProductById(b);
                 break;
             case B_DESCRI:
-                lista = dbm.GetByDescrpt(b);
+                lista = dbm.GetByDescripcion(b);
                 break;
             case B_LAST_CODE:
                 lista = dbm.getPrdByLastCod(b);
@@ -119,4 +128,29 @@ public class modificarController {
         TV_Productos.getItems().setAll(lista);
     }
     
+    @FXML // se abre una ventana modal para modifcar el producto seleccionado
+    public void onAction_ButtonModificar(ActionEvent event) throws IOException{
+        Producto sp = TV_Productos.getSelectionModel().getSelectedItem(); // se obtiene el item seleccionado
+        
+        if(sp == null) GenericDialogs.Info("Informacion",
+                "No ha seleccionado ningun producto", 
+                "Primero debe seleccionar un producto de la tabla.\n"
+              + "Cuando un producto esta seleccionado toda su fila se resalta"
+                );
+        
+        else abrirModDialog(event, sp);
+    }
+    
+    public void abrirModDialog(ActionEvent event,  Producto p) throws IOException{
+        // getClass.GetResource va a apuntar a la carpeta de resources/producto
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource(Locations.modificar_dialog_fxml));
+        Parent root = cargador.load(); // se usa el fxml para cargar tanto la gui como el controlador del dialogo de
+        Stage st = new Stage();// modificacion
+        st.setScene(new Scene(root));
+        st.initModality(Modality.WINDOW_MODAL); // se fuerza el focus al dialogo de modificacion
+        st.initOwner( ((Node) event.getSource()).getScene().getWindow());
+        modificarDialogController mdc = cargador.<modificarDialogController>getController(); // se obtiene el controlador
+        mdc.setProducto(p, this);// se usa esta instancia del controlador para enviar el producto seleccionado
+        st.show(); // se muestra la ventana
+    }
 }

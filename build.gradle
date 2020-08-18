@@ -1,9 +1,21 @@
 plugins {
+    id 'java'
+    id 'jacoco'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id 'org.beryx.jlink' version '2.20.0' // aplica application plugin de manera implicita
 }
 
+/*
+sourceCompatibility = 14
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '--enable-preview'
+}
+tasks.withType(Test) {
+    jvmArgs += "--enable-preview"
+}
+*/
 
 repositories {
     mavenCentral()
@@ -59,7 +71,7 @@ dependencies {
     // en tiempo de compilacion a : 
     // "${a}+${b}=${c}" => "1+3=5"
     compile group: 'com.antkorwin', name: 'better-strings', version: '0.4'
-    //annotationProcessor 'com.antkorwin:better-strings:0.4'
+    annotationProcessor 'com.antkorwin:better-strings:0.4'
 
     
     /*

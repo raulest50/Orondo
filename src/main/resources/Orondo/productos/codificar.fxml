@@ -9,18 +9,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../Styling/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Orondo.productos.codificarController">
    <children>
       <BorderPane layoutX="190.0" layoutY="139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <VBox alignment="CENTER" styleClass="azul_2" BorderPane.alignment="TOP_LEFT">
+            <VBox alignment="CENTER" styleClass="banner_title" BorderPane.alignment="TOP_LEFT">
                <children>
                   <Label alignment="CENTER" text="CODIFICAR PRODUCTOS">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
@@ -35,18 +31,12 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Label text="CODIGO">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
+                              <Label styleClass="normal" text="CODIGO">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
                               <TextField fx:id="TextField_Codigo" onAction="#onActionTF_Codigo">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </TextField>
                            </children>
                            <HBox.margin>
@@ -56,9 +46,6 @@
                         <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                            <children>
                               <Button fx:id="Button_Importar" mnemonicParsing="false" onMouseClicked="#onClickButtonImportar" text="Importar" visible="false">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </Button>
                            </children>
                         </HBox>
@@ -72,9 +59,6 @@
                         <HBox HBox.hgrow="ALWAYS">
                            <children>
                               <Label contentDisplay="CENTER" text="DESCRIPCION">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                                  <padding>
                                     <Insets right="10.0" />
                                  </padding>
@@ -83,9 +67,6 @@
                                  </HBox.margin>
                               </Label>
                               <TextField fx:id="TextField_Descripcion" onAction="#onActionTF_Descripcion" prefHeight="39.0" prefWidth="400.0">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </TextField>
                            </children>
                            <HBox.margin>
@@ -102,17 +83,11 @@
                         <HBox alignment="CENTER">
                            <children>
                               <Label contentDisplay="CENTER" text="COSTO">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                                  <padding>
                                     <Insets right="10.0" />
                                  </padding>
                               </Label>
                               <TextField fx:id="TextField_Costo" onAction="#onActionTF_Costo" prefHeight="25.0" prefWidth="150.0">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </TextField>
                            </children>
                            <HBox.margin>
@@ -122,17 +97,11 @@
                         <HBox alignment="CENTER" layoutX="20.0" layoutY="20.0">
                            <children>
                               <Label contentDisplay="CENTER" text="PV POR MAYOR">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
                               <TextField fx:id="TextField_PvMayor" onAction="#onActionTF_PVxMayor" prefHeight="25.0" prefWidth="150.0">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </TextField>
                            </children>
                            <HBox.margin>
@@ -142,17 +111,11 @@
                         <HBox alignment="CENTER" layoutX="348.0" layoutY="10.0">
                            <children>
                               <Label contentDisplay="CENTER" text="PV PUBLICO">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
                               <TextField fx:id="TextField_PvPublico" onAction="#onActionTF_PVPublico" prefHeight="25.0" prefWidth="150.0">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </TextField>
                            </children>
                            <HBox.margin>
@@ -169,34 +132,22 @@
                         <HBox alignment="CENTER">
                            <children>
                               <Label text="IVA">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Label>
                               <TextField fx:id="TextField_Iva" onAction="#onActionTF_IVA" prefHeight="39.0" prefWidth="100.0">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </TextField>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" layoutX="20.0" layoutY="20.0">
                            <children>
                               <Label contentDisplay="CENTER" text="STOCK INICIAL">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Label>
                               <TextField fx:id="TextField_StockInit" onAction="#onActionTF_StockInit" prefHeight="39.0" prefWidth="150.0">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
                               </TextField>
                            </children>
                            <HBox.margin>
@@ -211,9 +162,6 @@
                   <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" text="KEY WORDS">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
                            <padding>
                               <Insets right="10.0" />
                            </padding>
@@ -222,9 +170,6 @@
                            </HBox.margin>
                         </Label>
                         <TextArea fx:id="TextArea_keywords" prefHeight="200.0" prefWidth="500.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
@@ -237,17 +182,11 @@
                   <HBox alignment="CENTER">
                      <children>
                         <Button fx:id="Button_Codificar" mnemonicParsing="false" onMouseClicked="#onClickButtonCodificar" text="Codificar">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="40.0" top="10.0" />
                            </HBox.margin>
                         </Button>
                         <Button fx:id="Button_Borrar" mnemonicParsing="false" text="Borrar Campos">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
                            <HBox.margin>
                               <Insets bottom="10.0" left="40.0" right="10.0" top="10.0" />
                            </HBox.margin>

@@ -92,6 +92,8 @@ public class codificarController {
                 TextArea_keywords.setText("");
             }
         } else{
+            dbMapper db = new dbMapper();
+            
             String codigo = TextField_Codigo.getText();
             String descripcion = TextField_Descripcion.getText();
             int costo = Integer.parseInt(TextField_Costo.getText());
@@ -104,11 +106,11 @@ public class codificarController {
             else stock = Double.parseDouble(TextField_StockInit.getText());
             
             Double iva = Double.parseDouble(TextField_Iva.getText());
-            String last_updt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ");
+            String last_updt = db.now();
             String keywords = TextArea_keywords.getText();
             
             Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
-            dbMapper db = new dbMapper();
+            
             db.SaveProduct(p);
         }
     }

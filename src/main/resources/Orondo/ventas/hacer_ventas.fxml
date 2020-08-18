@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../Styling/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Orondo.ventas.hacerVentasController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Orondo.ventas.hacerVentasController">
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -33,11 +34,11 @@
                      <children>
                         <TableView HBox.hgrow="ALWAYS">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Codigo" />
+                            <TableColumn prefWidth="120.0" text="Codigo" />
                             <TableColumn prefWidth="200.0" text="Descripcion" />
-                              <TableColumn prefWidth="75.0" text="Cantidad" />
-                              <TableColumn prefWidth="75.0" text="P. Venta" />
-                              <TableColumn prefWidth="75.0" text="Sub total" />
+                              <TableColumn prefWidth="100.0" text="Cantidad" />
+                              <TableColumn prefWidth="100.0" text="P. Venta" />
+                              <TableColumn prefWidth="100.0" text="Sub total" />
                           </columns>
                         </TableView>
                      </children>
@@ -57,11 +58,11 @@
                      <children>
                         <TableView>
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Codigo" />
-                            <TableColumn prefWidth="75.0" text="Descripcion" />
-                              <TableColumn prefWidth="62.0" text="Costo" />
-                              <TableColumn prefWidth="75.0" text="PV x mayor" />
-                              <TableColumn prefWidth="75.0" text="Publico" />
+                            <TableColumn prefWidth="120.0" text="Codigo" />
+                            <TableColumn prefWidth="150.0" text="Descripcion" />
+                              <TableColumn prefWidth="100.0" text="Costo" />
+                              <TableColumn prefWidth="100.0" text="PV x mayor" />
+                              <TableColumn prefWidth="100.0" text="Publico" />
                           </columns>
                         </TableView>
                      </children>
@@ -77,4 +78,8 @@
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
+   <stylesheets>
+      <URL value="@../Styling/main.css" />
+      <URL value="@../Styling/table.css" />
+   </stylesheets>
 </AnchorPane>

@@ -1,34 +1,15 @@
 
 /*
-#dff2d5 green
+color themes
+#D5E5F2  #5377A6  #F26D78
+#699EBF  #024873  #51278C
+#32738C  #025959  #79A2F2
+#F2A30F  #027368  #A7CFF2
+#D9863D  #0D0D0D  #F2F2F2
+
+https://openjfx.io/javadoc/14/javafx.graphics/javafx/scene/doc-files/cssref.html
 */
 
-
-/*
-calm 1:
-#D5E5F2
-#699EBF
-#32738C
-#F2A30F
-#D9863D
-*/
-
-/*
-#5377A6
-#024873
-#025959
-#027368
-#0D0D0D
-*/
-
-
-/*
-#F26D78
-#51278C
-#79A2F2
-#A7CFF2
-#F2F2F2
-*/
 
 /**
 estilizado opciones del panel de entrada, productos analitica simulacion etc
@@ -50,13 +31,21 @@ estilizado opciones del panel de entrada, productos analitica simulacion etc
     -fx-background-insets: 0, 1, 2;
 }
 
-
+/*panel de atras en la escena main*/
 .back_pane{
     -fx-background-color: #32738C;
 }
 
-.azul_2{
+.banner_title{
     -fx-background-color: #699EBF;
+    -fx-padding: 5px;    
+    /*-fx-effect: dropshadow(two-pass-box, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);*/
+}
+
+/* solo aplica a los labels que sean hijos de un banner title */
+.banner_title > .label{
+    -fx-font-size : 17pt;
+    -fx-font-weight: bold;
 }
 
 .verde_c{
@@ -70,8 +59,28 @@ estilizado opciones del panel de entrada, productos analitica simulacion etc
 .combo-box {
     -fx-font-size : 12pt;
 }
+
+
+.button{
+    -fx-font-size : 15pt;
+}
+
+.text-field{
+    -fx-font-size : 12pt;
+}
+
+
+.label{
+    -fx-font-size : 16pt;
+}
+
+.label .titulo1{
+    -fx-font-size : 20pt;
+}
+
 /*
 The following code shows how to style all buttons who's parent is an HBox.
 .hbox  > .button {  -fx-text-fill: black;  }
 */
+
 
