@@ -6,12 +6,16 @@
 package Orondo.productos;
 
 import Orondo.OrondoDb.Producto;
+import Orondo.OrondoDb.Validador;
 import Orondo.OrondoDb.dbMapper;
+import Orondo.inicio.GenericDialogs;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  *
@@ -71,7 +75,7 @@ public class modificarDialogController {
 
     @FXML
     void onAction_B_Cancelar(ActionEvent event) {
-
+        cerrar();
     }
 
     @FXML
@@ -80,7 +84,7 @@ public class modificarDialogController {
         String descripcion = TF_Descripcion.getText();
         int costo = Integer.parseInt(TF_Costo.getText());
         int pvmayor = Integer.parseInt(TF_PVMayor.getText());
-        int pvpublico = Integer.parseInt(TF_Costo.getText());
+        int pvpublico = Integer.parseInt(TF_PVPublico.getText());
         double iva = Double.parseDouble(TF_IVA.getText());
         String keywords = TA_KeyWords.getText();
         
@@ -88,13 +92,45 @@ public class modificarDialogController {
         dbMapper dbm = new dbMapper();
         Producto modp = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, dbm.now(), keywords);
         
-        // se toma el _id del label ya que en el textField se puede alterar.
-        dbm.UpdateProducto(modp, L_Codigo.getText());
+        ArrayList relval;
+        
+        // el _id se puede alterar en el textfield pero no en el label y por eso
+        // se usa este ultimo para saber si el codigo se modifico
+        if(modp._id.equals(L_Codigo.getText())) relval = Validador.ModificacionValida(modp);
+        else relval = Validador.CodificacionValida(modp);
+        
+        if((boolean) relval.get(0)){
+            dbm.UpdateProducto(modp, L_Codigo.getText());
+            GenericDialogs.Info("Modificacion", "Operacion Exitosa :)",
+                    "La modificacion se realizo correctamente.");
+            mc.BuscarProducto();
+            cerrar();
+        } else{
+            GenericDialogs.Info("Modificacion", "Hay que corregir los datos."
+                    + " \n a continuacion se muestra que se debe corregir:",
+                    (String) relval.get(1));
+        }
+        
     }
 
     @FXML
     void onAction_B_Reset(ActionEvent event) {
         ResetTextFields();
+    }
+    
+    @FXML
+    void onAction_B_Eliminar(ActionEvent event){
+        // dialogo de confirmacion para la eliminacion del producto.
+        boolean yn = GenericDialogs.Confirmation("Eliminacion Producto",
+                "ADVERTENCIA lea con cuidado", "presione OK si desea eliminar este producto."
+                        + "\n recuerde que esta operacion no se puede deshacer.");
+        if(yn){
+            (new dbMapper()).EliminarProducto(p._id);
+            GenericDialogs.Info("Eliminacion", "Operacion Exitosa :)", "El producto ha sido eliminado exitosamente");
+            mc.BuscarProducto();
+            cerrar();
+        }
+        
     }
 
     
@@ -102,6 +138,8 @@ public class modificarDialogController {
      * Lo usa el controlador de modificar para pasar al digolo de modificacion
      * el producto seleccionado en la tabla y tambien el controlador de modificar
      * para actualizar la tabla una vez modificado el producto.
+     * @param p
+     * @param mc
      */
     public void setProducto(Producto p, modificarController mc){
         this.p = p;
@@ -126,5 +164,14 @@ public class modificarDialogController {
         TF_PVPublico.setText(Integer.toString(p.pv_publico));
         TF_IVA.setText(Double.toString(p.iva));
         TA_KeyWords.setText(p.keywords);
+    }
+    
+    public void cerrar(){ // metodo para cerrar la ventana
+        // se obtiene un handle de la ventana actual mediante un boton de la  misma ventana
+        //en este caso el mismo asociado a la operacion de cancelar
+        Stage stage = (Stage) TF_Codigo.getScene().getWindow();
+        // se cierra la ventana de modificacion
+        stage.close();
+        mc.BuscarProducto();
     }
 }

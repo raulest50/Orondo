@@ -35,6 +35,9 @@ module Orondo {
     
     requires better.strings; // para poder hacer string interpolation en java
     
+    //The standard Java libraries fail to provide enough methods for manipulation of its core classes.
+    //Apache Commons Lang provides these extra methods.
+    requires org.apache.commons.lang3;
     
     opens Orondo.productos to javafx.fxml;
     opens Orondo.ventas to javafx.fxml;

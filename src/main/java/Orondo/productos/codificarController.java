@@ -1,14 +1,15 @@
 package Orondo.productos;
 
 import Orondo.OrondoDb.Producto;
+import Orondo.OrondoDb.Validador;
 import Orondo.OrondoDb.dbMapper;
 import Orondo.Styling.Styler;
+import Orondo.inicio.GenericDialogs;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -105,13 +106,30 @@ public class codificarController {
             if(strStock.isBlank() || strStock.isEmpty()) stock = 0.0;
             else stock = Double.parseDouble(TextField_StockInit.getText());
             
-            Double iva = Double.parseDouble(TextField_Iva.getText());
+            String iva_s = TextField_Iva.getText();
+            if(iva_s.equals("")) iva_s = "0"; // Texfield iva en blanco se asume como 0%
+            Double iva = Double.parseDouble(iva_s);
+            
             String last_updt = db.now();
             String keywords = TextArea_keywords.getText();
             
             Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
             
-            db.SaveProduct(p);
+            // se verifica la validez de los datos y se procede a insertar en bd
+            // o indicar al usuario que campos se deben corregir
+            ArrayList valrel = Validador.CodificacionValida(p);
+            if((boolean) valrel.get(0)){
+                db.SaveProduct(p);
+                GenericDialogs.Info("Codificacion", "Operacion Exitosa :)",
+                        "El producto ha sido ingresado exitosamente\n"
+                        + "recuerde que en caso de dejar el campo de iva y/o stock vacios, \n"
+                        + "el sistema asume 0 en ambos casos");
+                ClearTextFields();
+            }
+            else GenericDialogs.Info("No se puede codificar", 
+                    "Hay que hacer correcciones a los datos introducidos,\n"
+                  + " a continuacion se muestra que se debe corregir",
+                    (String) valrel.get(1));
         }
     }
     
@@ -190,4 +208,13 @@ public class codificarController {
         TextArea_keywords.requestFocus();
     }
     
+    public void ClearTextFields(){
+        TextField_Codigo.setText("");
+        TextField_Descripcion.setText("");
+        TextField_Costo.setText("");
+        TextField_PvMayor.setText("");
+        TextField_PvPublico.setText("");
+        TextField_Iva.setText("");
+        TextField_StockInit.setText("");
+    }
 }

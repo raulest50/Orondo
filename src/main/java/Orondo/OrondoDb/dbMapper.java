@@ -32,6 +32,15 @@ public class dbMapper {
         this.getProductosCollection().save(p);
     }
     
+    /**
+     * si al producto no se modifico el atributo _id o tambien llamado codigo,
+     * entonces el codigo anterior y actual es el mismo, es decir, que en
+     * el argumento de esta funcion se podria colocar (Producto p, String p._id).
+     * En caso contrario el metodo eliminara el record con el codigo anterior
+     * y hara un save del producto (que tiene el codigo nuevo encapsulado).
+     * @param p producto que se desea actualizar
+     * @param _id codigo anterior
+     */
     public void UpdateProducto(Producto p, String _id){
         
         MongoCollection Productos = this.getProductosCollection();
@@ -41,6 +50,11 @@ public class dbMapper {
             Productos.remove("{_id: '${_id}'}");
             Productos.save(p);
         }
+    }
+    
+    public void EliminarProducto(String _id){
+        MongoCollection Productos = this.getProductosCollection();
+        Productos.remove("{_id: '${_id}'}");
     }
     
     /**
@@ -62,13 +76,7 @@ public class dbMapper {
      * @return 
      */
     public ArrayList<Producto> GetProductById(String _id){
-        
-        ArrayList<Producto> r = new ArrayList<>();
-        
-        String q = "{_id: '%1s'}"; // string formting. ojala en futuras verciones
-        q = String.format(q, "x"); // de java agreguen string interpolation de alguna manera como en javascript.
-        
-        return getQuery(q);
+        return getQuery("{_id: '${_id}'}");
     }
     
     

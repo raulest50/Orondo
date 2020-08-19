@@ -93,6 +93,7 @@ public class modificarController {
         CB_OpcionesB.setItems(itemsComboB);
         CB_OpcionesB.getSelectionModel().selectFirst();
         
+        
     }
     
     
