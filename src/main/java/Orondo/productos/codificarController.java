@@ -12,9 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -64,6 +67,12 @@ public class codificarController {
     @FXML
     public Button Button_Borrar;
     
+    @FXML 
+    public CheckBox CheckB_fraccionable;
+    
+    @FXML
+    public TextField TextField_PesoUnitario;
+    
     /**
      * para importar productos desde un .json file. el boton incia con
      * visible = false. para hacerlo visible se debe escribir importar en
@@ -81,55 +90,39 @@ public class codificarController {
         Styler.SetTextFieldAsNumeric(TextField_PvPublico);
         Styler.SetTextFieldAsNumeric(TextField_StockInit);
         Styler.SetTextFieldAsNumeric(TextField_Iva);
+        Styler.SetTextFieldAsNumeric(TextField_PesoUnitario);
         
-        
+        TextField_PesoUnitario.setDisable(true);
+        // cada que hay un cambio en el boolean selected del checkbox, se activa este metodo.
+        CheckB_fraccionable.selectedProperty().addListener((Observable, oldValue, newValue)->{
+            if(newValue){
+                TextField_PesoUnitario.setDisable(false);
+                TextField_PesoUnitario.requestFocus();
+            } else{
+                TextField_PesoUnitario.setDisable(true);
+                TextField_PesoUnitario.setText("");
+            }
+        });
     }
+    
+    
     
     @FXML
     void onClickButtonCodificar(MouseEvent event) {
+        // funcion secretea para importar productos a la base de datos
         if(event.getButton() == MouseButton.SECONDARY){
             if(TextArea_keywords.getText().equals("importar")){
                 Button_Importar.setVisible(true);
                 TextArea_keywords.setText("");
             }
-        } else{
-            dbMapper db = new dbMapper();
-            
-            String codigo = TextField_Codigo.getText();
-            String descripcion = TextField_Descripcion.getText();
-            int costo = Integer.parseInt(TextField_Costo.getText());
-            int pvmayor = Integer.parseInt(TextField_PvMayor.getText());
-            int pvpublico = Integer.parseInt(TextField_PvPublico.getText());
-            
-            Double stock;// si stock se deja vacio se asume 0
-            String strStock = TextField_StockInit.getText();
-            if(strStock.isBlank() || strStock.isEmpty()) stock = 0.0;
-            else stock = Double.parseDouble(TextField_StockInit.getText());
-            
-            String iva_s = TextField_Iva.getText();
-            if(iva_s.equals("")) iva_s = "0"; // Texfield iva en blanco se asume como 0%
-            Double iva = Double.parseDouble(iva_s);
-            
-            String last_updt = db.now();
-            String keywords = TextArea_keywords.getText();
-            
-            Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
-            
-            // se verifica la validez de los datos y se procede a insertar en bd
-            // o indicar al usuario que campos se deben corregir
-            ArrayList valrel = Validador.CodificacionValida(p);
-            if((boolean) valrel.get(0)){
-                db.SaveProduct(p);
-                GenericDialogs.Info("Codificacion", "Operacion Exitosa :)",
-                        "El producto ha sido ingresado exitosamente\n"
-                        + "recuerde que en caso de dejar el campo de iva y/o stock vacios, \n"
-                        + "el sistema asume 0 en ambos casos");
-                ClearTextFields();
+        } else{ // en el caso normal se lee los text fields
+            try{ // y se ingresa el producto a mongo si pasa las validaciones
+                CodificarProducto();// se paso el codigo a una funcion 
+            } catch(NumberFormatException e){ // para mayor legibilidad
+                GenericDialogs.Info("No se Puede codificar", "", "los campos numericos de costo, precio por mayor\n"
+                        + "y precio de venta al publico no pueden quedar vacios. Stock inicial si puede quedar vacio\n"
+                        + "ya que se asume como cero en ese caso.");
             }
-            else GenericDialogs.Info("No se puede codificar", 
-                    "Hay que hacer correcciones a los datos introducidos,\n"
-                  + " a continuacion se muestra que se debe corregir",
-                    (String) valrel.get(1));
         }
     }
     
@@ -166,7 +159,9 @@ public class codificarController {
                 String last_updt = (String) pjson.get("ultima_actualizacion");
                 String keywords = (String) pjson.get("Familia");
                 
-                Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
+                Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords,
+                false, 0);
+                
                 dbMapper db = new dbMapper();
                 db.SaveProduct(p);
                 });
@@ -206,6 +201,59 @@ public class codificarController {
     @FXML
     void onActionTF_StockInit(ActionEvent event){
         TextArea_keywords.requestFocus();
+    }
+    
+    @FXML
+    void onAction_TF_PesoUnitario(ActionEvent event){
+        TextField_StockInit.requestFocus();
+    }
+    
+    public void CodificarProducto(){
+        dbMapper db = new dbMapper();
+        
+        String codigo = TextField_Codigo.getText();
+        String descripcion = TextField_Descripcion.getText();
+        int costo = Integer.parseInt(TextField_Costo.getText());
+        int pvmayor = Integer.parseInt(TextField_PvMayor.getText());
+        int pvpublico = Integer.parseInt(TextField_PvPublico.getText());
+        
+        Double stock;// si stock se deja vacio se asume 0
+        String strStock = TextField_StockInit.getText();
+        if(strStock.isBlank() || strStock.isEmpty()) stock = 0.0;
+        else stock = Double.parseDouble(TextField_StockInit.getText());
+        
+        String iva_s = TextField_Iva.getText();
+        if(iva_s.equals("")) iva_s = "0"; // Texfield iva en blanco se asume como 0%
+        Double iva = Double.parseDouble(iva_s);
+        
+        String last_updt = db.now();
+        String keywords = TextArea_keywords.getText();
+        
+        boolean fraccionable = CheckB_fraccionable.isSelected();
+        
+        int PesoUnitario;
+        String PesoUnitario_s = TextField_PesoUnitario.getText();
+        if(fraccionable) PesoUnitario = Integer.parseInt(PesoUnitario_s);
+        else PesoUnitario = 0; // 0 seria equivalente a indeifnido para no usar null
+        
+        Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords,
+                fraccionable, PesoUnitario);
+        
+        // se verifica la validez de los datos y se procede a insertar en bd
+        // o indicar al usuario que campos se deben corregir
+        ArrayList valrel = Validador.CodificacionValida(p);
+        if((boolean) valrel.get(0)){
+            db.SaveProduct(p);
+            GenericDialogs.Info("Codificacion", "Operacion Exitosa :)",
+                    "El producto ha sido ingresado exitosamente\n"
+                            + "recuerde que en caso de dejar el campo de iva y/o stock vacios, \n"
+                            + "el sistema asume 0 en ambos casos");
+            ClearTextFields();
+        }
+        else GenericDialogs.Info("No se puede codificar",
+                "Hay que hacer correcciones a los datos introducidos,\n"
+                        + " a continuacion se muestra que se debe corregir",
+                (String) valrel.get(1));
     }
     
     public void ClearTextFields(){

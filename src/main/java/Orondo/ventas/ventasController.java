@@ -2,13 +2,16 @@ package Orondo.ventas;
 
 import Orondo.Styling.Styler;
 import Orondo.inicio.Locations;
+
 import Orondo.inicio.mainController;
-import Orondo.productos.modificarController;
+
 import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class ventasController {
@@ -28,7 +31,18 @@ public class ventasController {
     @FXML
     public VBox VBox_Monitorear;
     
+    public Pane pane_vender;
+    public Pane pane_monitorear;
+    
     public mainController maincont;
+    
+    public hacerVentasController hacer_ventas_cont = new hacerVentasController();
+    public monitorear_retailController monitorear_cont = new monitorear_retailController();
+    
+    public ventasController() throws IOException{
+        this.pane_vender = (Pane) FXMLLoader.load(this.getClass().getResource(Locations.hacer_ventas_fxml));
+        this.pane_monitorear = (Pane) FXMLLoader.load(this.getClass().getResource(Locations.monitorear_ventas_fxml));
+    }
     
     public void initialize() {
         Styler.AddFadingAnimation_onHover(VBox_Atras);
@@ -38,16 +52,17 @@ public class ventasController {
     
     @FXML
     public void onClick_VBox_Atras(MouseEvent event) throws IOException{
-  //      Locations.CambiarStage(AnchorPane_bp, new mainController(), Locations.main_fxml);
+        maincont.mainstage.setScene(maincont.scn_main);
+        maincont.Maximizar();
     }
     
     @FXML
     public void onClick_VBox_HacerVentas(MouseEvent event) throws IOException{
-//        Locations.CambiarStage(BorderPane_bp, new hacerVentasController(), Locations.hacer_ventas_fxml);
+        BorderPane_bp.setCenter(pane_vender);
     }
     
     @FXML
     public void onClick_VBox_Monitorear(MouseEvent event){
-        
+        BorderPane_bp.setCenter(pane_monitorear);
     }
 }

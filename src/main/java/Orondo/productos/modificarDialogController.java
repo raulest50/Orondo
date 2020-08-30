@@ -12,6 +12,7 @@ import Orondo.inicio.GenericDialogs;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -26,10 +27,6 @@ public class modificarDialogController {
     Producto p;
     
     modificarController mc;
-    
-    public void initialize() {
-        
-    }
     
     @FXML
     private TextField TF_Codigo;
@@ -72,6 +69,27 @@ public class modificarDialogController {
 
     @FXML
     private TextArea CP_KeyWords;
+    
+    @FXML
+    public CheckBox CheckB_fraccionable;
+    
+    @FXML
+    public TextField TextField_PesoUnitario;
+    
+    public void initialize() {
+        
+        // funcion que es llamada cada que hay un cambio en el boolean selected
+        // de el checkbox fraccionable de mod productos.
+        CheckB_fraccionable.selectedProperty().addListener((Obs, oldVal, newVal)->{
+            if(newVal){
+                TextField_PesoUnitario.setDisable(false);
+            } else{
+                TextField_PesoUnitario.setDisable(true);
+                TextField_PesoUnitario.setText("");
+            }
+        });
+        
+    }
 
     @FXML
     void onAction_B_Cancelar(ActionEvent event) {
@@ -80,37 +98,13 @@ public class modificarDialogController {
 
     @FXML
     void onAction_B_Modificar(ActionEvent event) {
-        String codigo = TF_Codigo.getText();
-        String descripcion = TF_Descripcion.getText();
-        int costo = Integer.parseInt(TF_Costo.getText());
-        int pvmayor = Integer.parseInt(TF_PVMayor.getText());
-        int pvpublico = Integer.parseInt(TF_PVPublico.getText());
-        double iva = Double.parseDouble(TF_IVA.getText());
-        String keywords = TA_KeyWords.getText();
-        
-        // si los cambios son validos se procede a actualizar el producto en mongo.
-        dbMapper dbm = new dbMapper();
-        Producto modp = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, dbm.now(), keywords);
-        
-        ArrayList relval;
-        
-        // el _id se puede alterar en el textfield pero no en el label y por eso
-        // se usa este ultimo para saber si el codigo se modifico
-        if(modp._id.equals(L_Codigo.getText())) relval = Validador.ModificacionValida(modp);
-        else relval = Validador.CodificacionValida(modp);
-        
-        if((boolean) relval.get(0)){
-            dbm.UpdateProducto(modp, L_Codigo.getText());
-            GenericDialogs.Info("Modificacion", "Operacion Exitosa :)",
-                    "La modificacion se realizo correctamente.");
-            mc.BuscarProducto();
-            cerrar();
-        } else{
-            GenericDialogs.Info("Modificacion", "Hay que corregir los datos."
-                    + " \n a continuacion se muestra que se debe corregir:",
-                    (String) relval.get(1));
+        try{
+            ModificarProducto();
+        } catch(NumberFormatException e){
+            GenericDialogs.Info("No se Puede modificar", "", "los campos numericos de costo, precio por mayor\n"
+                        + "y precio de venta al publico no pueden quedar vacios. Stock inicial si puede quedar vacio\n"
+                        + "ya que se asume como cero en ese caso.");
         }
-        
     }
 
     @FXML
@@ -131,6 +125,52 @@ public class modificarDialogController {
             cerrar();
         }
         
+    }
+    
+    
+    public void ModificarProducto(){
+        String codigo = TF_Codigo.getText();
+        String descripcion = TF_Descripcion.getText();
+        int costo = Integer.parseInt(TF_Costo.getText());
+        int pvmayor = Integer.parseInt(TF_PVMayor.getText());
+        int pvpublico = Integer.parseInt(TF_PVPublico.getText());
+        double iva = Double.parseDouble(TF_IVA.getText());
+        String keywords = TA_KeyWords.getText();
+        
+        String PrecioUnitario_s = TextField_PesoUnitario.getText();
+        int PrecioUnitario;
+        
+        boolean fraccionable = CheckB_fraccionable.isSelected();
+        
+        if(fraccionable){
+            PrecioUnitario =  Integer.parseInt(PrecioUnitario_s);
+        } else{
+            PrecioUnitario = 0;
+        }
+        
+        // si los cambios son validos se procede a actualizar el producto en mongo.
+        dbMapper dbm = new dbMapper();
+        Producto modp = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, dbm.now(), keywords,
+                fraccionable, 0);
+        
+        ArrayList relval;
+        
+        // el _id se puede alterar en el textfield pero no en el label y por eso
+        // se usa este ultimo para saber si el codigo se modifico
+        if(modp._id.equals(L_Codigo.getText())) relval = Validador.ModificacionValida(modp);
+        else relval = Validador.CodificacionValida(modp);
+        
+        if((boolean) relval.get(0)){
+            dbm.UpdateProducto(modp, L_Codigo.getText());
+            GenericDialogs.Info("Modificacion", "Operacion Exitosa :)",
+                    "La modificacion se realizo correctamente.");
+            mc.BuscarProducto();
+            cerrar();
+        } else{
+            GenericDialogs.Info("Modificacion", "Hay que corregir los datos."
+                    + " \n a continuacion se muestra que se debe corregir:",
+                    (String) relval.get(1));
+        }
     }
 
     

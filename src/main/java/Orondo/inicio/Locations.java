@@ -58,5 +58,7 @@ public class Locations {
     
     public static String hacer_ventas_fxml = "hacer_ventas.fxml";
     
+    public static String monitorear_ventas_fxml = "monitorear_retail.fxml";
+    
     
 }
