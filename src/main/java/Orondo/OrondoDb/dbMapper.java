@@ -148,4 +148,8 @@ public class dbMapper {
         return LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ");
     }
     
+    // agregar un arrancador de la base de datos mongo y un ping para mongodb
+    // si ocurre un ConectionRefusedException que orondo arranque mongod
+    // de manera automatica
+    
 }

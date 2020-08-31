@@ -2,10 +2,12 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -32,13 +34,12 @@
                   </HBox>
                   <HBox VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView HBox.hgrow="ALWAYS">
+                        <TableView fx:id="TV_Ventas" HBox.hgrow="ALWAYS">
                           <columns>
-                            <TableColumn prefWidth="120.0" text="Codigo" />
-                            <TableColumn prefWidth="200.0" text="Descripcion" />
-                              <TableColumn prefWidth="100.0" text="Cantidad" />
-                              <TableColumn prefWidth="100.0" text="P. Venta" />
-                              <TableColumn prefWidth="100.0" text="Sub total" />
+                            <TableColumn fx:id="TCVentas_Descripcion" prefWidth="200.0" text="Descripcion" />
+                              <TableColumn fx:id="TCVentas_Pventa" prefWidth="100.0" text="P. Venta" />
+                              <TableColumn fx:id="TCVentas_Cantidad" prefWidth="100.0" text="Cantidad" />
+                              <TableColumn fx:id="TCVentas_SubTotal" prefWidth="100.0" text="Sub total" />
                           </columns>
                         </TableView>
                      </children>
@@ -51,18 +52,31 @@
                <children>
                   <HBox>
                      <children>
-                        <TextField />
+                        <ToggleButton fx:id="ToggButton_TipoVenta" mnemonicParsing="false" onAction="#onAction_ToggButton" prefWidth="150.0" text="ToggleButton" />
                      </children>
                   </HBox>
                   <HBox>
                      <children>
-                        <TableView>
+                        <TextField fx:id="TF_BuscarProducto" onAction="#onAction_BuscarProducto">
+                           <HBox.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </HBox.margin></TextField>
+                        <ComboBox fx:id="CB_OpcionesB">
+                           <HBox.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <TableView fx:id="TV_Busqueda">
                           <columns>
-                            <TableColumn prefWidth="120.0" text="Codigo" />
-                            <TableColumn prefWidth="150.0" text="Descripcion" />
-                              <TableColumn prefWidth="100.0" text="Costo" />
-                              <TableColumn prefWidth="100.0" text="PV x mayor" />
-                              <TableColumn prefWidth="100.0" text="Publico" />
+                            <TableColumn fx:id="TCBuscar_Codigo" prefWidth="120.0" text="Codigo" />
+                            <TableColumn fx:id="TCBuscar_Descripcion" prefWidth="150.0" text="Descripcion" />
+                              <TableColumn fx:id="TCBuscar_Costo" prefWidth="100.0" text="Costo" />
+                              <TableColumn fx:id="TCBuscar_PVmayor" prefWidth="100.0" text="PV x mayor" />
+                              <TableColumn fx:id="TCBuscar_PVPublico" prefWidth="100.0" text="Publico" />
                           </columns>
                         </TableView>
                      </children>
