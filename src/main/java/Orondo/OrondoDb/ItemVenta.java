@@ -6,6 +6,7 @@
 package Orondo.OrondoDb;
 
 import Orondo.utils.Util;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  *
@@ -22,11 +23,11 @@ public class ItemVenta {
     /**
      * codigo del producto
      */
-    public String producto_id;
+    private final String producto_id;
     
-    public int Cantidad;
+    private int Cantidad;
     
-    public int subTotal;
+    private int subTotal;
     
     public boolean fraccionado;
     
@@ -36,13 +37,53 @@ public class ItemVenta {
      */
     public int UnitPrecio;
     
+    
+    /**
+     * En esta clase si hago uso del esquema tipico java de hacer los 
+     * atributos privados y solo accecibles desde los metodos provistos por la 
+     * clase, ya que hay unaa relacion estricta entre cantidad, subtotal y precio
+     * de venta. De esta forma dificulto que por error haga cambios en estas
+     * variables, cambios tales que generen inconsistencias. si se cambia
+     * el precio de venta o la cantidad eso se refleja en el subtotal.
+     * @param p
+     * @param Cantidad
+     * @param UnitPrecio
+     * @param fraccionado 
+     */
     public ItemVenta(Producto p, int Cantidad, int UnitPrecio, boolean fraccionado){
         this.p = p;
         this.producto_id = p._id;
         this.Cantidad = Cantidad;
         this.UnitPrecio = UnitPrecio;
         this.fraccionado = fraccionado;
+        RefreshSubTotal();
     }
+    
+    
+    public void Add2Cantidad(int add){
+        this.Cantidad += add;
+        RefreshSubTotal();
+    }
+    
+    public void setPrecioVenta(int nuevoPrecio){
+        if(nuevoPrecio >= this.p.costo){
+            this.UnitPrecio = nuevoPrecio;
+        } else{
+            this.UnitPrecio = this.p.costo;
+        }
+    }
+    
+    /**
+     * 
+     */
+    public final void RefreshSubTotal(){
+        if(fraccionado){
+            this.subTotal = (int) (UnitPrecio*Util.dividir(Cantidad, p.PesoUnitario));
+        } else{
+            this.subTotal = UnitPrecio*Cantidad;
+        }
+    }
+    
     
     
     public String getDescripcion(){
@@ -58,12 +99,6 @@ public class ItemVenta {
     }
     
     public int getSubtotal(){
-        int r;
-        if(fraccionado){
-            r = (int) (UnitPrecio*Util.dividir(Cantidad, p.PesoUnitario));
-        } else{
-            r = UnitPrecio*Cantidad;
-        }
-        return r;
+        return subTotal;
     }
 }

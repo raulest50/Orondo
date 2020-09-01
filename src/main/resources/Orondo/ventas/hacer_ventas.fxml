@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Orondo.ventas.hacerVentasController">
    <children>
-      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane onKeyPressed="#onKeyPressed_BorderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <VBox BorderPane.alignment="CENTER">
                <children>
@@ -34,15 +34,28 @@
                   </HBox>
                   <HBox VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="TV_Ventas" HBox.hgrow="ALWAYS">
+                        <TableView fx:id="TV_Ventas" onKeyPressed="#onKeyPressed_TV_Ventas" HBox.hgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="TCVentas_Descripcion" prefWidth="200.0" text="Descripcion" />
-                              <TableColumn fx:id="TCVentas_Pventa" prefWidth="100.0" text="P. Venta" />
-                              <TableColumn fx:id="TCVentas_Cantidad" prefWidth="100.0" text="Cantidad" />
+                              <TableColumn fx:id="TCVentas_Pventa" prefWidth="100.0" text="P" />
+                              <TableColumn fx:id="TCVentas_Cantidad" prefWidth="100.0" text="N" />
                               <TableColumn fx:id="TCVentas_SubTotal" prefWidth="100.0" text="Sub total" />
                           </columns>
                         </TableView>
                      </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Label text="TOTAL:">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="L_Total" text="0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>
@@ -70,13 +83,13 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <TableView fx:id="TV_Busqueda">
+                        <TableView fx:id="TV_Busqueda" onKeyPressed="#onKeyPressed_TVBuscar">
                           <columns>
                             <TableColumn fx:id="TCBuscar_Codigo" prefWidth="120.0" text="Codigo" />
                             <TableColumn fx:id="TCBuscar_Descripcion" prefWidth="150.0" text="Descripcion" />
-                              <TableColumn fx:id="TCBuscar_Costo" prefWidth="100.0" text="Costo" />
-                              <TableColumn fx:id="TCBuscar_PVmayor" prefWidth="100.0" text="PV x mayor" />
-                              <TableColumn fx:id="TCBuscar_PVPublico" prefWidth="100.0" text="Publico" />
+                              <TableColumn fx:id="TCBuscar_Costo" prefWidth="100.0" text="costo" />
+                              <TableColumn fx:id="TCBuscar_PVmayor" prefWidth="100.0" text="mayor" />
+                              <TableColumn fx:id="TCBuscar_PVPublico" prefWidth="100.0" text="detal" />
                           </columns>
                         </TableView>
                      </children>

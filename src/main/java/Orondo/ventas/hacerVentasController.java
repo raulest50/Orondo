@@ -9,11 +9,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -25,9 +29,12 @@ public class hacerVentasController {
     @FXML
     TextField TF_BuscarProducto;
     
+    @FXML
+    Label L_Total;
+    
     
     @FXML
-    TableView TV_Busqueda;
+    TableView<Producto> TV_Busqueda;
     
     @FXML
     TableColumn TCBuscar_Codigo;
@@ -47,7 +54,7 @@ public class hacerVentasController {
     
     
     @FXML
-    TableView TV_Ventas;
+    TableView<ItemVenta> TV_Ventas;
     
     @FXML
     TableColumn TCVentas_Descripcion;
@@ -87,14 +94,17 @@ public class hacerVentasController {
     public final String STR_VENTA_MAYOR="MAYORISTA";
     public final String STR_VENTA_PUBLICO="DETAL";
     
+    //suma de los productos que se han registrado
+    public int Suma=0;
+    
     public void initialize(){
         
         // Table view busqeuda productos para luego adicionar a table view ventas
         TCBuscar_Codigo.setCellValueFactory(new PropertyValueFactory<>("id"));
         TCBuscar_Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         TCBuscar_Costo.setCellValueFactory(new PropertyValueFactory<>("costo"));
-        TCBuscar_PVmayor.setCellValueFactory(new PropertyValueFactory<>("pv_publico"));
-        TCBuscar_PVPublico.setCellValueFactory(new PropertyValueFactory<>("pv_mayor"));
+        TCBuscar_PVmayor.setCellValueFactory(new PropertyValueFactory<>("pv_mayor"));
+        TCBuscar_PVPublico.setCellValueFactory(new PropertyValueFactory<>("pv_publico"));
         
         //Table view ventas
         TCVentas_Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
@@ -116,6 +126,69 @@ public class hacerVentasController {
             }
         });
         
+        TV_Busqueda.setRowFactory( tv -> {
+            TableRow row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    TVBuscar2TV_Venta();
+                }
+            });
+            return row ;
+        });
+        
+    }
+    
+    /**
+     * cuando se hace enter en el tableview de busqueda de productos,
+     * si hay un producto seleccionado, este se debe agregar al tableview
+     * de venta.
+     * @param event 
+     */
+    @FXML
+    private void onKeyPressed_TVBuscar(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)){
+            TVBuscar2TV_Venta();
+        }
+    }
+    
+    /**
+     * shortcuts para la tabla de ventas
+     * @param event 
+     */
+    @FXML
+    private void onKeyPressed_TV_Ventas(KeyEvent event){
+        if(!TV_Ventas.getSelectionModel().isEmpty()){
+            if(event.getCode().equals(KeyCode.DELETE)){
+                RemoverItemVenta(TV_Ventas.getSelectionModel().getSelectedItem());
+            }
+            
+            if(event.getCode().equals(KeyCode.PLUS)){
+                TV_Ventas.getSelectionModel().getSelectedItem().Add2Cantidad(+1);
+                //System.out.println(TV_Ventas.getSelectionModel().getSelectedItem().Cantidad);
+                TV_Ventas.refresh();
+                RefreshSuma();
+            }
+            
+            if(event.getCode().equals(KeyCode.MINUS)){
+                int temp = TV_Ventas.getSelectionModel().getSelectedItem().getCantidad();
+                if(temp>1){
+                    TV_Ventas.getSelectionModel().getSelectedItem().Add2Cantidad(-1);
+                    TV_Ventas.refresh();
+                    RefreshSuma();
+                }
+            }
+        }
+    }
+    
+    
+    @FXML
+    private void onKeyPressed_BorderPane(KeyEvent event){
+        if(event.getCode().equals(KeyCode.END)){
+            System.out.println("END ################");
+        }
+        if(event.getCode().equals(KeyCode.PAGE_DOWN)){
+            System.out.println("PAGE DOWN ################");
+        }
     }
     
     
@@ -158,11 +231,37 @@ public class hacerVentasController {
      * @param p 
      */
     public void AddItemVenta(Producto p){
-        if(ToggButton_TipoVenta.getText().equals(this.STR_VENTA_MAYOR))
+        if(ToggButton_TipoVenta.getText().equals(this.STR_VENTA_MAYOR)){
             TV_Ventas.getItems().add(new ItemVenta(p, 1, p.pv_mayor, false));
-        else TV_Ventas.getItems().add(new ItemVenta(p, 1, p.pv_publico, false));
+        }
+        else{
+            TV_Ventas.getItems().add(new ItemVenta(p, 1, p.pv_publico, false));
+        }
+        RefreshSuma();
+    }
+    
+    public void RemoverItemVenta(ItemVenta it2rem){
+        TV_Ventas.getItems().remove(it2rem);
+        RefreshSuma();
     }
     
     
+    /**
+     * para usar cuando se va a pasar el producto seleccionado de la tabla de 
+     * busqueda a la tabla de venta.
+     */
+    public void TVBuscar2TV_Venta(){
+        if(!TV_Busqueda.getSelectionModel().isEmpty()){
+            AddItemVenta(TV_Busqueda.getSelectionModel().getSelectedItem());            
+        }
+    }
+    
+    public void RefreshSuma(){
+        this.Suma = 0;
+        for(ItemVenta x: TV_Ventas.getItems()){
+            Suma += x.getSubtotal();
+        }
+        L_Total.setText(Integer.toString(this.Suma));
+    }
     
 }
