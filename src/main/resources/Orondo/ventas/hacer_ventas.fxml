@@ -63,6 +63,7 @@
          <right>
             <VBox BorderPane.alignment="CENTER">
                <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
                   <HBox>
                      <children>
                         <ToggleButton fx:id="ToggButton_TipoVenta" mnemonicParsing="false" onAction="#onAction_ToggButton" prefWidth="150.0" text="ToggleButton" />
@@ -70,7 +71,7 @@
                   </HBox>
                   <HBox>
                      <children>
-                        <TextField fx:id="TF_BuscarProducto" onAction="#onAction_BuscarProducto">
+                        <TextField fx:id="TF_BuscarProducto" onAction="#onAction_BuscarProducto" onKeyPressed="#onKeyPressed_TF_Busqueda">
                            <HBox.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </HBox.margin></TextField>

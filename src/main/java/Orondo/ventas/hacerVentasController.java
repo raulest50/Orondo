@@ -3,11 +3,17 @@ package Orondo.ventas;
 import Orondo.OrondoDb.ItemVenta;
 import Orondo.OrondoDb.Producto;
 import Orondo.OrondoDb.dbMapper;
+import Orondo.inicio.Locations;
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -18,6 +24,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
@@ -126,11 +135,27 @@ public class hacerVentasController {
             }
         });
         
+        //double click listener para tabla de busqueda
         TV_Busqueda.setRowFactory( tv -> {
             TableRow row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     TVBuscar2TV_Venta();
+                }
+            });
+            return row ;
+        });
+        
+        //double click listener para tabla de ventas
+        TV_Ventas.setRowFactory( tv -> {
+            TableRow row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) && !TV_Ventas.getSelectionModel().isEmpty()) {
+                    try{
+                        abrirNegociarDialog(event, TV_Ventas.getSelectionModel().getSelectedItem());
+                    } catch(IOException e){
+                        e.printStackTrace();
+                    }
                 }
             });
             return row ;
@@ -148,6 +173,10 @@ public class hacerVentasController {
     private void onKeyPressed_TVBuscar(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ENTER)){
             TVBuscar2TV_Venta();
+        }
+        if(event.getCode().equals(KeyCode.ALT_GRAPH)){
+            TV_Ventas.requestFocus();
+            TV_Ventas.getSelectionModel().selectFirst();
         }
     }
     
@@ -177,24 +206,55 @@ public class hacerVentasController {
                     RefreshSuma();
                 }
             }
+            
+            if(event.getCode().equals(KeyCode.ALT_GRAPH)){
+                TF_BuscarProducto.requestFocus();
+            }
         }
     }
     
     
     @FXML
     private void onKeyPressed_BorderPane(KeyEvent event){
-        if(event.getCode().equals(KeyCode.END)){
-            System.out.println("END ################");
+       
+    }
+    
+    /**
+     * se configuran teclas de acceso rapido para agiliar.
+     * si el campo de texto de busqeuda tiene focus, presionar la
+     * tecla alt cambia el criterio de busqueda. presionar alt graph
+     * permite pasar el focus al la tabla de busqueda
+     * @param event 
+     */
+    @FXML
+    private void onKeyPressed_TF_Busqueda(KeyEvent event){
+        if(event.getCode().equals(KeyCode.ALT)){
+            if(CB_OpcionesB.getSelectionModel().getSelectedIndex()==2) {
+                CB_OpcionesB.getSelectionModel().selectFirst();
+            } else{
+                CB_OpcionesB.getSelectionModel().selectNext();
+            }
         }
-        if(event.getCode().equals(KeyCode.PAGE_DOWN)){
-            System.out.println("PAGE DOWN ################");
+        
+        if(event.getCode().equals(KeyCode.ALT_GRAPH)){
+            TV_Busqueda.requestFocus();
+            TV_Busqueda.getSelectionModel().selectFirst();
         }
     }
     
     
+    /**
+     * se realiza la busqueda de productos deacuerdo al texto ingresado en
+     * el textfield de busqueda y la opcion seleccionada en el combobox
+     * @param event 
+     */
     @FXML
     public void onAction_BuscarProducto(ActionEvent event){
         BuscarProducto();
+        if(!TV_Busqueda.getItems().isEmpty() && !CB_OpcionesB.getSelectionModel().getSelectedItem().equals(this.B_CODIGO_EXACT)){            
+            TV_Busqueda.requestFocus();
+            TV_Busqueda.getSelectionModel().select(0);
+        }
     }
     
     @FXML
@@ -262,6 +322,26 @@ public class hacerVentasController {
             Suma += x.getSubtotal();
         }
         L_Total.setText(Integer.toString(this.Suma));
+    }
+    
+    
+    /**
+     * se abre la ventana modal para modificar un item venta
+     * @param event
+     * @param p
+     * @throws IOException 
+     */
+    public void abrirNegociarDialog(MouseEvent event, ItemVenta iv) throws IOException{
+        // getClass.GetResource va a apuntar a la carpeta de resources/producto
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource(Locations.pop_up_negociar_fxml));
+        Parent root = cargador.load(); // se usa el fxml para cargar tanto la gui como el controlador del dialogo de
+        Stage st = new Stage();// modificacion
+        st.setScene(new Scene(root));
+        st.initModality(Modality.WINDOW_MODAL); // se fuerza el focus al dialogo de modificacion
+        st.initOwner( ((Node) event.getSource()).getScene().getWindow());
+        PopUp_NegociarController npcont = cargador.<PopUp_NegociarController>getController(); // se obtiene el controlador
+        npcont.setItemVenta(iv, this);// se usa esta instancia del controlador para enviar el producto seleccionado
+        st.show(); // se muestra la ventana
     }
     
 }

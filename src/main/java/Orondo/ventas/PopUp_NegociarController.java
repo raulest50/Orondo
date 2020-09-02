@@ -5,14 +5,33 @@
  */
 package Orondo.ventas;
 
+import Orondo.OrondoDb.ItemVenta;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
+
 /**
  *
  * @author Raul Alzate
  */
 public class PopUp_NegociarController {
     
+    @FXML
+    Label L_Descripcion;
+    
+    hacerVentasController hv;
+    
+    ItemVenta iv;
+    
     void Initialize(){
         
+    }
+
+    void setItemVenta(ItemVenta iv, hacerVentasController hv){
+        this.iv = iv;
+        this.hv = hv;
+        
+        this.L_Descripcion.setText(this.iv.p.descripcion);
     }
     
 }

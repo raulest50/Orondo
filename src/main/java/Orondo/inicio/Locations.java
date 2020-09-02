@@ -60,5 +60,7 @@ public class Locations {
     
     public static String monitorear_ventas_fxml = "monitorear_retail.fxml";
     
+    public static String pop_up_negociar_fxml = "PopUp_Negociar.fxml";
+    
     
 }
