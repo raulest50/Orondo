@@ -5,26 +5,17 @@
  */
 package Orondo.OrondoDb;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Raul Alzate
  */
-public class Venta {
+public class Cliente {
     
-    public ArrayList<ItemVenta> items;
     
-    public String fecha;
+    public String _id;
+    public String nombre;
     
-    public String Cliente_id;
     
-    public int total;
     
-    public int iva5;
-    
-    public int iva19;
-    
-    public int IvaExcento;
     
 }

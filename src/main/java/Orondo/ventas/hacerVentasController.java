@@ -239,6 +239,7 @@ public class hacerVentasController {
         if(event.getCode().equals(KeyCode.ALT_GRAPH)){
             TV_Busqueda.requestFocus();
             TV_Busqueda.getSelectionModel().selectFirst();
+            UnificarItemsVenta();
         }
     }
     
@@ -342,6 +343,44 @@ public class hacerVentasController {
         PopUp_NegociarController npcont = cargador.<PopUp_NegociarController>getController(); // se obtiene el controlador
         npcont.setItemVenta(iv, this);// se usa esta instancia del controlador para enviar el producto seleccionado
         st.show(); // se muestra la ventana
+    }
+    
+    /**
+     * debe ser usado por el Dialogo de negociacion o modificacion de itemVenta
+     * para pasar los cambios devuelta a esta pantalla.
+     * @param iv 
+     */
+    public void UpdateItemVenta(ItemVenta iv){
+        int idx = TV_Ventas.getSelectionModel().getSelectedIndex();
+        TV_Ventas.getItems().set(idx, iv);
+        RefreshSuma();
+        TV_Ventas.refresh();
+    }
+    
+    /**
+     * metodo que barre toda los items de la tabla de venta para buscar 
+     * productos con codigo repetido para juntarlos en un mismo item sumando
+     * las cantidades.
+     */
+    public void UnificarItemsVenta(){
+        
+        ObservableList<ItemVenta> ol = TV_Ventas.getItems(); // old list: ol
+        ObservableList<ItemVenta> ul = FXCollections.observableArrayList(); // unified list: ul
+        
+        for(ItemVenta x : ol){
+            boolean in_list = false;
+            for(ItemVenta y : ul){
+                if(y.p._id.equals(x.p._id)){
+                    in_list=true;
+                    y.Add2Cantidad(x.getCantidad());
+                }
+            }
+            if(!in_list){
+                ul.add(x);
+            }
+        }
+        TV_Ventas.setItems(ul);
+        TV_Ventas.refresh();
     }
     
 }
