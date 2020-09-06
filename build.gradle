@@ -44,13 +44,14 @@ dependencies {
     compile 'org.kordamp.ikonli:ikonli-openiconic-pack:11.5.0'
     
     
+    // se requieren ambos para jongo. se removieron, ver comentarios dbMapper class
     // https://mvnrepository.com/artifact/org.jongo/jongo
-    compile group: 'org.jongo', name: 'jongo', version: '1.4.1'
-    
+    // compile group: 'org.jongo', name: 'jongo', version: '1.4.1'
     // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
-    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.6'
+    //compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.6'
 
-
+    // https://search.maven.org/search?q=g:org.mongodb%20AND%20a:mongodb-driver-sync
+    implementation 'org.mongodb:mongodb-driver-sync:4.1.0'
 
     
     

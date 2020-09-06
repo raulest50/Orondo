@@ -15,16 +15,13 @@ module Orondo {
     requires org.kordamp.ikonli.entypo;
     requires org.kordamp.iconli.core;
     
-
-    // JONGO object to mongodb mapper. en reemplazo de morphia
-    requires jongo;
     
     // quito el warning de slf4j
     // pero se genera error ERROR StatusLogger No Log4j 2 configuration file found
     //requires org.apache.logging.log4j;
     
     requires json.simple;
-    requires mongo.java.driver;
+    requires org.mongodb.driver.core;
     
     // si no se agrega este modulo ocurre una excepcion cuando se instancia un
     // objeto de la clase Morphia con new Morphia()

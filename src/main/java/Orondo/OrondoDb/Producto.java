@@ -1,6 +1,5 @@
 package Orondo.OrondoDb;
 
-import org.jongo.marshall.jackson.oid.MongoId;
 
 
 
@@ -20,7 +19,6 @@ public class Producto {
      * defecto a uno personalizado toca agregar otra anotacion, entonces preferi
      * dejarlo asi para mas simplisidad.
      */
-    @MongoId
     public String _id;
     
     public String descripcion;

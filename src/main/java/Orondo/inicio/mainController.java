@@ -2,6 +2,7 @@ package Orondo.inicio;
 
 //import java.net.URL;
 //import java.util.ResourceBundle;
+import Orondo.OrondoDb.dbMapper;
 import Orondo.Styling.Styler;
 import Orondo.productos.productosController;
 import Orondo.ventas.ventasController;
@@ -90,6 +91,11 @@ public class mainController {
         scn_ventas = new Scene(ventasLoader.load());
         vencont = ventasLoader.getController();
         vencont.maincont = this;
+        
+        
+        // se verifica si la base de datos debe incializarse.
+        dbMapper dbm = new dbMapper();
+        dbm.InitMongo(); // si no existen las collecciones, se crean.
     }
     
     /**

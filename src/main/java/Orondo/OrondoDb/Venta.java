@@ -13,6 +13,8 @@ import java.util.ArrayList;
  */
 public class Venta {
     
+    String _id; // es el concecutivo de la documento de venta
+    
     public ArrayList<ItemVenta> items;
     
     public String fecha;
@@ -21,10 +23,29 @@ public class Venta {
     
     public int total;
     
-    public int iva5;
+    public void Venta(ArrayList<ItemVenta> items, String fecha, String Cliente_id){
+        this.items = items;
+        this.fecha = fecha;
+        this.Cliente_id = Cliente_id;
+        this.total = SumPVs(items);
+        this._id = generateID();
+    }
     
-    public int iva19;
+    public int SumPVs(ArrayList<ItemVenta> items){
+        int s = 0;
+        for (ItemVenta x : items){
+            s += x.getSubtotal();
+        }
+        return s;
+    }
     
-    public int IvaExcento;
+    public String generateID(){
+        String r = "";
+        
+        dbMapper dbm = new dbMapper();
+        
+        
+        return r;
+    }
     
 }
