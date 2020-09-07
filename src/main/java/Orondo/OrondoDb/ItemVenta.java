@@ -70,7 +70,7 @@ public class ItemVenta {
         RefreshSubTotal();
     }
     
-    public void setPrecioVenta(int nuevoPrecio){
+    public void setUnitPrecio(int nuevoPrecio){
         if(nuevoPrecio >= this.p.costo){
             this.UnitPrecio = nuevoPrecio;
         } else{
@@ -125,7 +125,16 @@ public class ItemVenta {
         return Cantidad;
     }
     
-    public int getSubtotal(){
+    public int getSubTotal(){
         return subTotal;
     }
+
+    public int getUnitPrecio() {
+        return UnitPrecio;
+    }
+
+    public String getProducto_id() {
+        return producto_id;
+    }
+    
 }

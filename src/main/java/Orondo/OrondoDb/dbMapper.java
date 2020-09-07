@@ -3,20 +3,28 @@ package Orondo.OrondoDb;
 
 
 import com.mongodb.MongoClientSettings;
+import com.mongodb.ReadConcern;
+import com.mongodb.ReadPreference;
+import com.mongodb.TransactionOptions;
+import com.mongodb.WriteConcern;
+import com.mongodb.client.ClientSession;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.TransactionBody;
 
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
+import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+
 
 import org.bson.Document;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
@@ -61,15 +69,25 @@ public class dbMapper {
     
     private final String CLN_RANGOS_FAC = "rangofacturacion";
     
+    /**
+     * en rangos de facturacion el doc con _id consecutivo, guarda en valor
+     * el numero de consecutivo actual, para la generacion de un documento de
+     * venta se debe usar ese numero +1.
+     */
+    public final String consecutivoKey = "consecutivo"; 
+    public final String valorKey = "valor";
+    
+    public final String Key_id = "_id"; 
+    
     
     // MOGODB CONECTOR OBJECTS
-    private MongoDatabase db;
+    private final MongoDatabase db;
     
-    private MongoClient mongo_client;
+    private final MongoClient mongo_client;
     
-    private MongoClientSettings settings;
+    private final MongoClientSettings settings;
     
-    CodecRegistry pojoCodecRegistry;
+    private final CodecRegistry pojoCodecRegistry;
     
     /**
      * Hay 2 caracteristicas muy importantes como se explica arriba.
@@ -241,15 +259,59 @@ public class dbMapper {
     /**
      * debe asignar el id a la venta ya que este debe ser un concecutivo
      * segun lo dispuesto por la dian para facturacion POS.
-     * 
+     *  al hacer las operaciones dentro de una transacion nos aseguramos
+     * de que el consecutivo se avance +1 solo si realmente se inserto
+     * el documento de venta, asegurando consistencia de los datos.
      * @param v 
      */
-    public void InsertVenta(Venta v){
+    public boolean InsertVenta(Venta v){
+        boolean op_exitosa = false;
+        final ClientSession clientSession = mongo_client.startSession();
         
+        TransactionOptions txnOptions = TransactionOptions.builder()
+                .readPreference(ReadPreference.primary())
+                .readConcern(ReadConcern.LOCAL)
+                .writeConcern(WriteConcern.MAJORITY)
+                .build();
+        
+        /* Step 3: Define the sequence of operations to perform inside the transactions. */
+        TransactionBody txnBody = new TransactionBody<String>() {
+            @Override
+            public String execute() {
+                String r = "false";
+                MongoCollection ventas = getVentaCollection();
+                MongoCollection rangos = getRangoFCollection();
+                
+                // se lee el consecutivo actual, se incrementa +1 y se asigna al doc de venta
+                Document cstvo = (Document) rangos.find(eq("_id", consecutivoKey)).first();
+                String next_ctvo = Integer.toString(1 + Integer.parseInt(cstvo.getString("valor")));
+                v._id = next_ctvo;
+                // se guarda el doc de venta y se actualiza el doc consecutivo
+                InsertOneResult ior = ventas.insertOne(clientSession, v);
+                
+                UpdateResult upr = rangos.updateOne(clientSession, eq("_id", consecutivoKey),
+                        new Document("$set", new Document(valorKey, next_ctvo)));
+                
+                if(ior.wasAcknowledged() && upr.wasAcknowledged()) r = "true";
+                
+                return r;
+            }
+        };
+        try {
+            /*
+            Step 4: Use .withTransaction() to start a transaction,
+            execute the callback, and commit (or abort on error).
+            */
+            String op_result = (String) clientSession.withTransaction(txnBody, txnOptions);
+            op_exitosa = Boolean.parseBoolean(op_result);
+        } catch (RuntimeException e) {
+            // some error handling
+            System.out.println("##############"+e.getLocalizedMessage());
+        } finally {
+            clientSession.close();
+        }
+        return op_exitosa;
     }
-    
-    public final String consecutivoKey = "concecutivo"; 
-    public final String Key_id = "_id"; 
     
     /**
      * verifica que existan las colecciones en mongo db que esta aplicacion usa

@@ -123,12 +123,12 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Button mnemonicParsing="false" text="Registrar">
+                        <Button mnemonicParsing="false" onAction="#onAction_B_Registrar" text="Registrar">
                            <HBox.margin>
                               <Insets right="100.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Cancelar">
+                        <Button mnemonicParsing="false" onAction="#onAction_B_Cancelar" text="Cancelar">
                            <HBox.margin>
                               <Insets left="100.0" />
                            </HBox.margin>

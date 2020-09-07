@@ -62,7 +62,7 @@ public class PopUp_NegociarController {
             try{
                 int temp = Integer.parseInt(neu);
                 if(temp >= iv.p.costo){
-                    iv.setPrecioVenta(Integer.parseInt(neu));
+                    iv.setUnitPrecio(Integer.parseInt(neu));
                     RefreshTextFields();
                 }
             } catch(NumberFormatException ex){ 
@@ -113,7 +113,7 @@ public class PopUp_NegociarController {
                 try{
                     int temp = Integer.parseInt(TF_Subtotal.getText());
                     if(temp < (iv.p.costo*iv.getCantidad())){
-                        iv.setPrecioVenta(iv.p.costo);
+                        iv.setUnitPrecio(iv.p.costo);
                         RefreshTextFields();
                     }
                 } catch(NumberFormatException e){
@@ -157,7 +157,7 @@ public class PopUp_NegociarController {
     public void RefreshTextFields(){
         this.TF_Cantidad.setText(Integer.toString(iv.getCantidad()));
         this.TF_PrecioVenta.setText(Integer.toString(iv.getPVenta()));
-        this.TF_Subtotal.setText(Integer.toString(iv.getSubtotal()));
+        this.TF_Subtotal.setText(Integer.toString(iv.getSubTotal()));
     }
     
     public boolean CambioValido(){

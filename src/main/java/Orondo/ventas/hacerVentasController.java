@@ -2,8 +2,10 @@ package Orondo.ventas;
 
 import Orondo.OrondoDb.ItemVenta;
 import Orondo.OrondoDb.Producto;
+import Orondo.OrondoDb.Venta;
 import Orondo.OrondoDb.dbMapper;
 import Orondo.inicio.Locations;
+import Orondo.utils.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -119,7 +121,7 @@ public class hacerVentasController {
         TCVentas_Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         TCVentas_Cantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         TCVentas_Pventa.setCellValueFactory(new PropertyValueFactory<>("pVenta"));
-        TCVentas_SubTotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+        TCVentas_SubTotal.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
         
         // se inicializa las opciones del ComboBox
         itemsComboB.addAll(this.B_DESCRI, this.B_CODIGO_EXACT, this.B_LAST_CODE);
@@ -263,6 +265,37 @@ public class hacerVentasController {
         this.TF_BuscarProducto.requestFocus();
     }
     
+    @FXML
+    public void onAction_B_Registrar(ActionEvent event){
+        RegistrarVenta();
+    }
+    
+    @FXML
+    public void onAction_B_Cancelar(ActionEvent event){
+        TV_Ventas.getItems().clear();
+        //TV_Ventas.refresh();
+    }
+    
+    public void RegistrarVenta(){
+        ObservableList<ItemVenta> lit = TV_Ventas.getItems();
+        if(!lit.isEmpty()){
+            ArrayList<ItemVenta> alit = new ArrayList<>();
+            lit.iterator().forEachRemaining((x) -> { alit.add(x); });
+            dbMapper dbm = new dbMapper();
+            Venta v = new Venta(alit, dbm.now(), "123");
+            boolean registro_exitoso = dbm.InsertVenta(v);
+            if(registro_exitoso){
+                TV_Ventas.getItems().clear();
+                String toastMsg = "Venta Registrada";
+                int toastMsgTime = 3500; //3.5 seconds
+                int fadeInTime = 500; //0.5 seconds
+                int fadeOutTime= 500; //0.5 seconds
+                Stage st = (Stage) TF_BuscarProducto.getScene().getWindow();
+                Toast.makeText(st, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
+            }
+        }
+    }
+    
     public void BuscarProducto(){
         dbMapper dbm = new dbMapper();
         ArrayList<Producto> lista = new ArrayList<>();
@@ -320,7 +353,7 @@ public class hacerVentasController {
     public void RefreshSuma(){
         this.Suma = 0;
         for(ItemVenta x: TV_Ventas.getItems()){
-            Suma += x.getSubtotal();
+            Suma += x.getSubTotal();
         }
         L_Total.setText(Integer.toString(this.Suma));
     }

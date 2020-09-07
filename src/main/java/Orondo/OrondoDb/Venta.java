@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Venta {
     
-    String _id; // es el concecutivo de la documento de venta
+    public String _id; // es el concecutivo de la documento de venta
     
     public ArrayList<ItemVenta> items;
     
@@ -23,29 +23,34 @@ public class Venta {
     
     public int total;
     
-    public void Venta(ArrayList<ItemVenta> items, String fecha, String Cliente_id){
+    /**
+     * constructor que se usa cuando se desea insertar una venta en la bd
+     * @param items
+     * @param fecha
+     * @param Cliente_id 
+     */
+    public Venta(ArrayList<ItemVenta> items, String fecha, String Cliente_id){
         this.items = items;
         this.fecha = fecha;
         this.Cliente_id = Cliente_id;
         this.total = SumPVs(items);
-        this._id = generateID();
+        // _id se genera al momento de la insercion
+    }
+    
+    /**
+     * constructor que se usa cuando se desea leer una venta de la base de datos
+     */
+    public Venta(){
+        
     }
     
     public int SumPVs(ArrayList<ItemVenta> items){
         int s = 0;
         for (ItemVenta x : items){
-            s += x.getSubtotal();
+            s += x.getSubTotal();
         }
         return s;
     }
     
-    public String generateID(){
-        String r = "";
-        
-        dbMapper dbm = new dbMapper();
-        
-        
-        return r;
-    }
     
 }
