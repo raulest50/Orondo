@@ -18,15 +18,25 @@ module Orondo {
     
     // quito el warning de slf4j
     // pero se genera error ERROR StatusLogger No Log4j 2 configuration file found
-    //requires org.apache.logging.log4j;
+    // requires org.apache.logging.log4j;
     
+    
+    // CONECTOR MONGO DB
     requires json.simple;
     requires org.mongodb.driver.core;
+    requires org.mongodb.driver.sync.client;
+    requires org.mongodb.bson;
+    
+    // se debe agregar porque lo usa el conector de mongodb.
+    // de lo contrario ocurre este error
+    // exception={com.mongodb.MongoException: java.lang.NoClassDefFoundError: jdk/net/ExtendedSocketOptions}
+    requires jdk.net;
     
     // si no se agrega este modulo ocurre una excepcion cuando se instancia un
     // objeto de la clase Morphia con new Morphia()
-    requires java.sql;
-    //***************
+    // requires java.sql;
+    
+    
     requires java.prefs; // java preferences
     requires java.logging;
     

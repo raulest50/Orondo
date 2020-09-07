@@ -3,11 +3,11 @@ package Orondo.OrondoDb;
 
 
 import com.mongodb.MongoClientSettings;
-
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bson.Document;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
@@ -87,6 +88,7 @@ public class dbMapper {
                 .build();
         
         this.mongo_client = MongoClients.create(settings);
+        
         
         this.db = this.mongo_client.getDatabase(this.DBNAME);
     }
@@ -253,9 +255,6 @@ public class dbMapper {
      * verifica que existan las colecciones en mongo db que esta aplicacion usa
      */
     public void InitMongo(){
-        
-        // Se inicializa el valor de inicio de consecutivo de facturacion.
-        MongoClient mongoClient = MongoClients.create();
         
         MongoCollection<Document> cln_f = getRangoFCollection();
         
