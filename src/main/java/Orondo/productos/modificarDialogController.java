@@ -137,21 +137,21 @@ public class modificarDialogController {
         double iva = Double.parseDouble(TF_IVA.getText());
         String keywords = TA_KeyWords.getText();
         
-        String PrecioUnitario_s = TextField_PesoUnitario.getText();
-        int PrecioUnitario;
+        String PesoUnitario_s = TextField_PesoUnitario.getText();
+        int PesoUnitario;
         
         boolean fraccionable = CheckB_fraccionable.isSelected();
         
         if(fraccionable){
-            PrecioUnitario =  Integer.parseInt(PrecioUnitario_s);
+            PesoUnitario =  Integer.parseInt(PesoUnitario_s);
         } else{
-            PrecioUnitario = 0;
+            PesoUnitario = -1;
         }
         
         // si los cambios son validos se procede a actualizar el producto en mongo.
         dbMapper dbm = new dbMapper();
         Producto modp = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, dbm.now(), keywords,
-                fraccionable, 0);
+                fraccionable, PesoUnitario);
         
         ArrayList relval;
         
@@ -196,7 +196,7 @@ public class modificarDialogController {
         ResetTextFields();
     }
     
-    public void ResetTextFields(){
+    private void ResetTextFields(){
         TF_Codigo.setText(p._id);
         TF_Descripcion.setText(p.descripcion);
         TF_Costo.setText(Integer.toString(p.costo));
@@ -204,6 +204,12 @@ public class modificarDialogController {
         TF_PVPublico.setText(Integer.toString(p.pv_publico));
         TF_IVA.setText(Double.toString(p.iva));
         TA_KeyWords.setText(p.keywords);
+        
+        if(p.fraccionable){
+            CheckB_fraccionable.setSelected(true);
+            TextField_PesoUnitario.setText(Integer.toString(p.PesoUnitario));
+        }
+        else TextField_PesoUnitario.setDisable(true);
     }
     
     public void cerrar(){ // metodo para cerrar la ventana

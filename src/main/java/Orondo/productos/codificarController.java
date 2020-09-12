@@ -12,15 +12,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ObservableValue;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -41,7 +46,7 @@ public class codificarController {
     public TextField TextField_Codigo;
     
     @FXML
-    public TextField TextField_Iva;
+    public ComboBox CBox_iva;
     
     @FXML
     public TextField TextField_Descripcion;
@@ -82,15 +87,24 @@ public class codificarController {
     @FXML
     public Button Button_Importar;
     
+    public final String IVA_0="0%", IVA_5="5%", IVA_19="19%";
+    
+    
+    ObservableList<String> itemsCBox_iva = FXCollections.observableArrayList();
+    
     
     public void initialize() {
         // se configuran estos textFields para que solo reciban numeros
-        Styler.SetTextFieldAsNumeric(TextField_Costo);
-        Styler.SetTextFieldAsNumeric(TextField_PvMayor);
-        Styler.SetTextFieldAsNumeric(TextField_PvPublico);
-        Styler.SetTextFieldAsNumeric(TextField_StockInit);
-        Styler.SetTextFieldAsNumeric(TextField_Iva);
-        Styler.SetTextFieldAsNumeric(TextField_PesoUnitario);
+        Styler.SetTextFieldAsNumericInt(TextField_Costo);
+        Styler.SetTextFieldAsNumericInt(TextField_PvMayor);
+        Styler.SetTextFieldAsNumericInt(TextField_PvPublico);
+        Styler.SetTextFieldAsNumericInt(TextField_StockInit);
+        
+        Styler.SetTextFieldAsNumericInt(TextField_PesoUnitario);
+        
+        itemsCBox_iva.addAll(IVA_0, IVA_5, IVA_19);
+        CBox_iva.setItems(itemsCBox_iva);
+        CBox_iva.getSelectionModel().selectFirst();
         
         TextField_PesoUnitario.setDisable(true);
         // cada que hay un cambio en el boolean selected del checkbox, se activa este metodo.
@@ -192,11 +206,11 @@ public class codificarController {
     }
     @FXML
     void onActionTF_PVPublico(ActionEvent event){
-        TextField_Iva.requestFocus();
+        CBox_iva.requestFocus();
     }
     @FXML
-    void onActionTF_IVA(ActionEvent event){
-        TextField_StockInit.requestFocus();
+    void onKeyPress_CBox_Iva(KeyEvent event){
+        if(event.getCode().equals(KeyCode.ENTER)) TextField_StockInit.requestFocus();
     }
     @FXML
     void onActionTF_StockInit(ActionEvent event){
@@ -222,8 +236,10 @@ public class codificarController {
         if(strStock.isBlank() || strStock.isEmpty()) stock = 0.0;
         else stock = Double.parseDouble(TextField_StockInit.getText());
         
-        String iva_s = TextField_Iva.getText();
-        if(iva_s.equals("")) iva_s = "0"; // Texfield iva en blanco se asume como 0%
+        String iva_s = CBox_iva.getSelectionModel().getSelectedItem().toString();
+        iva_s = iva_s.split("%")[0];// se remueve el porcentaje del string para hacer parsing directamente
+        
+        //if(iva_s.equals("")) iva_s = "0"; // Texfield iva en blanco se asume como 0%
         Double iva = Double.parseDouble(iva_s);
         
         String last_updt = db.now();
@@ -262,7 +278,7 @@ public class codificarController {
         TextField_Costo.setText("");
         TextField_PvMayor.setText("");
         TextField_PvPublico.setText("");
-        TextField_Iva.setText("");
+        
         TextField_StockInit.setText("");
     }
 }

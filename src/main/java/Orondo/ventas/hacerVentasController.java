@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -81,11 +82,14 @@ public class hacerVentasController {
     
     
     @FXML
-    ComboBox CB_OpcionesB;
+    public ComboBox CB_OpcionesB;
     
     
     @FXML
-    ToggleButton ToggButton_TipoVenta;
+    public ToggleButton ToggButton_TipoVenta;
+    
+    @FXML
+    public CheckBox CHBox_Unificar;
     
     
     ObservableList<String> itemsComboB = FXCollections.observableArrayList();
@@ -119,7 +123,7 @@ public class hacerVentasController {
         
         //Table view ventas
         TCVentas_Descripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        TCVentas_Cantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        TCVentas_Cantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad_str"));
         TCVentas_Pventa.setCellValueFactory(new PropertyValueFactory<>("pVenta"));
         TCVentas_SubTotal.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
         
@@ -241,7 +245,6 @@ public class hacerVentasController {
         if(event.getCode().equals(KeyCode.ALT_GRAPH)){
             TV_Busqueda.requestFocus();
             TV_Busqueda.getSelectionModel().selectFirst();
-            UnificarItemsVenta();
         }
     }
     
@@ -287,7 +290,7 @@ public class hacerVentasController {
             if(registro_exitoso){
                 TV_Ventas.getItems().clear();
                 String toastMsg = "Venta Registrada";
-                int toastMsgTime = 3500; //3.5 seconds
+                int toastMsgTime = 2000; //3.5 seconds
                 int fadeInTime = 500; //0.5 seconds
                 int fadeOutTime= 500; //0.5 seconds
                 Stage st = (Stage) TF_BuscarProducto.getScene().getWindow();
@@ -331,6 +334,8 @@ public class hacerVentasController {
         else{
             TV_Ventas.getItems().add(new ItemVenta(p, 1, p.pv_publico, false));
         }
+        // si el checkbox esta seleccionado se unifican los items con el mismo _id
+        if(CHBox_Unificar.isSelected()) UnificarItemsVenta();
         RefreshSuma();
     }
     

@@ -17,6 +17,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+/**
+ * tomado de una respuesta de stackoverflow 
+ * https://stackoverflow.com/questions/26792812/android-toast-equivalent-in-javafx
+ * 
+ * @author Raul Alzate
+ */
 public final class Toast
 {
     public static void makeText(Stage ownerStage, String toastMsg, int toastDelay, int fadeInDelay, int fadeOutDelay)
@@ -28,7 +34,7 @@ public final class Toast
 
         Text text = new Text(toastMsg);
         text.setFont(Font.font("Verdana", 40));
-        text.setFill(Color.RED);
+        text.setFill(Color.DEEPSKYBLUE);
 
         StackPane root = new StackPane(text);
         root.setStyle("-fx-background-radius: 20; -fx-background-color: rgba(0, 0, 0, 0.2); -fx-padding: 50px;");

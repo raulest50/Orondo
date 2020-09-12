@@ -6,6 +6,7 @@
 package Orondo.OrondoDb;
 
 import Orondo.utils.Util;
+import java.lang.UnsupportedOperationException;
 
 /**
  *
@@ -28,7 +29,7 @@ public class ItemVenta {
     
     private int subTotal;
     
-    public boolean fraccionado;
+    private boolean fraccionado;
     
     /**
      * precio de venta unitario que puede oscilar entre el valor de costo
@@ -85,7 +86,7 @@ public class ItemVenta {
      */
     public final void RefreshSubTotal(){
         if(fraccionado){
-            this.subTotal = (int) (UnitPrecio*Util.dividir(Cantidad, p.PesoUnitario));
+            this.subTotal = (int) Math.ceil((Cantidad * Util.dividir(UnitPrecio, p.PesoUnitario)));
         } else{
             this.subTotal = UnitPrecio*Cantidad;
         }
@@ -111,6 +112,11 @@ public class ItemVenta {
             subTotal = minsut;
         }
     }
+
+    public void setFraccionado(boolean fraccionado) {
+        this.fraccionado = fraccionado;
+        RefreshSubTotal();
+    }
     
     
     public String getDescripcion(){
@@ -125,6 +131,11 @@ public class ItemVenta {
         return Cantidad;
     }
     
+    public String getCantidad_str(){
+        if(this.fraccionado) return "${Cantidad} ${getMeasureUnit()}";
+        else return "${Cantidad}";
+    }
+    
     public int getSubTotal(){
         return subTotal;
     }
@@ -135,6 +146,39 @@ public class ItemVenta {
 
     public String getProducto_id() {
         return producto_id;
+    }
+
+    public boolean isFraccionado() {
+        return fraccionado;
+    }
+    
+    public void customlog(String custom){
+        System.out.println(custom);
+        System.out.println(this.Cantidad);
+        System.out.println(this.UnitPrecio);
+        System.out.println(this.subTotal);
+    }
+    
+    /**
+     * La idea es implementar en la clase producto un atributo para especificar 
+     * la unidad de medida en el caso de fraccionar un producto. De esta forma
+     * si el itemventa es fraccionado, al momento de entregra la cantidad
+     * para uso en el table view, el item venta puede adicionar al String
+     * la unidad de medida. sin embargo para agilizar la primera implementacion
+     * lo dejare para agregar despues y dejo este metodo declarado para
+     * recordar el patron en un futuro.
+     */
+    public String getMeasureUnit(){
+        return "g";
+    }
+    
+    /**
+     * el metodo de rendondeo funciona bien pero cuando se combina con
+     * la dinamica del item venta muestra un comportamiento buggy
+     */
+    public void RedondearCOP(){
+        throw new UnsupportedOperationException();
+        //setSubTotal(Util.COP_Round(subTotal));
     }
     
 }

@@ -30,11 +30,34 @@ public class Styler {
         v.setOnMouseEntered((MouseEvent me) -> ft.play());
     }
     
-    public static void SetTextFieldAsNumeric(TextField textField){
+    /**
+     * configura un textfield para que acepte solo numeros y un punto
+     * osea solo numeros de hasta 7 digitos la parte entera y hasta 4 
+     * digitos la parte decimal. ver mas sobre java regex en:
+     * https://www.w3schools.com/java/java_regex.asp
+     * @param textField 
+     */
+    public static void SetTextFieldAsNumericRational(TextField textField){
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                    textField.setText(oldValue);
+                }
+            }
+        });
+    }
+    
+    /**
+     * Configura un textfield para que solo acepte hasta 7 digitos de 0-9 sin
+     * punto decimal
+     * @param textField 
+     */
+    public static void SetTextFieldAsNumericInt(TextField textField){
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,10}")) {
                     textField.setText(oldValue);
                 }
             }

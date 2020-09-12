@@ -8,8 +8,10 @@ package Orondo.ventas;
 import Orondo.OrondoDb.ItemVenta;
 import Orondo.Styling.Styler;
 import Orondo.inicio.GenericDialogs;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -42,9 +44,17 @@ public class PopUp_NegociarController {
     @FXML
     public TextField TF_Cantidad;
     
+    @FXML
+    public CheckBox CH_Box_Fraccionar;
+    
+    @FXML
+    public Label L_fracUnits;
+    
     public hacerVentasController hv;
     
     public ItemVenta iv;
+    
+    //private ItemVenta ivcp;
     
     public void initialize(){
         
@@ -52,9 +62,9 @@ public class PopUp_NegociarController {
         // por tanto se deshabilita la edicion del textfield mientras
         //TF_Subtotal.setEditable(false);
         
-        Styler.SetTextFieldAsNumeric(TF_Cantidad);
-        Styler.SetTextFieldAsNumeric(TF_PrecioVenta);
-        Styler.SetTextFieldAsNumeric(TF_Subtotal);
+        Styler.SetTextFieldAsNumericInt(TF_Cantidad);
+        Styler.SetTextFieldAsNumericInt(TF_PrecioVenta);
+        Styler.SetTextFieldAsNumericInt(TF_Subtotal);
         
         // 3 listeners a cambios en los textfield para actualizar de manera 
         // automatica los demas valores del itemventa
@@ -74,8 +84,10 @@ public class PopUp_NegociarController {
         
         TF_Cantidad.textProperty().addListener((obs, old, neu)->{
             try{
+                System.out.println(" old: ${old}   nuevo: ${neu}");
                 int temp = Integer.parseInt(neu);
-                iv.setCantidad(temp);
+                if(temp == 0) iv.setCantidad(1);
+                else iv.setCantidad(temp);
                 RefreshTextFields();
             } catch(NumberFormatException ex){
                 
@@ -122,6 +134,24 @@ public class PopUp_NegociarController {
             }
         });
         
+        L_fracUnits.setVisible(false);
+        CH_Box_Fraccionar.selectedProperty().addListener((obs, old, neu)->{
+            if(neu){
+                L_fracUnits.setVisible(true);
+            } else {
+                L_fracUnits.setVisible(false);
+            }
+            iv.setFraccionado(neu);
+            RefreshTextFields();
+        });
+        
+        // se queria adicionar la posibilidad de modificar el subtotal tambien
+        // y que esto modificara dinamicamente el precio de venta.
+        // pero para enfocar esfuerzos en caracteristicas mas urgentes se
+        // bloquean cambios en este campo de texto ya que el comportamiento
+        // aun es algo buggi. Mas adelante con mas tiempo lo retomare
+        TF_Subtotal.setEditable(false);
+        
         
     }
     
@@ -143,7 +173,7 @@ public class PopUp_NegociarController {
             
 
     public void setItemVenta(ItemVenta iv, hacerVentasController hv){
-        this.iv = iv;
+        this.iv = new ItemVenta(iv.p, iv.getCantidad(), iv.getUnitPrecio(), iv.isFraccionado());
         this.hv = hv;
         
         this.L_Descripcion.setText(iv.p.descripcion);
@@ -152,11 +182,17 @@ public class PopUp_NegociarController {
         this.L_PV_mayorista.setText(Integer.toString(iv.p.pv_mayor));
         RefreshTextFields();
         
+        if(!iv.p.fraccionable){
+            CH_Box_Fraccionar.setDisable(true);
+        } else{
+            if(iv.isFraccionado()) CH_Box_Fraccionar.setSelected(true);
+        }
+        
     }
     
     public void RefreshTextFields(){
         this.TF_Cantidad.setText(Integer.toString(iv.getCantidad()));
-        this.TF_PrecioVenta.setText(Integer.toString(iv.getPVenta()));
+        this.TF_PrecioVenta.setText(Integer.toString(iv.getPVenta()));        
         this.TF_Subtotal.setText(Integer.toString(iv.getSubTotal()));
     }
     
