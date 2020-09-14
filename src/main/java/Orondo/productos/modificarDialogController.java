@@ -10,12 +10,17 @@ import Orondo.OrondoDb.Validador;
 import Orondo.OrondoDb.dbMapper;
 import Orondo.inicio.GenericDialogs;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -76,6 +81,11 @@ public class modificarDialogController {
     @FXML
     public TextField TextField_PesoUnitario;
     
+    @FXML
+    public ComboBox<String> CMBox_Grupo;
+    
+    private ObservableList<String> itemsCMBox_grupo = FXCollections.observableArrayList();
+    
     public void initialize() {
         
         // funcion que es llamada cada que hay un cambio en el boolean selected
@@ -89,6 +99,11 @@ public class modificarDialogController {
             }
         });
         
+        
+        itemsCMBox_grupo.addAll(Producto.NORMAL, Producto.STK_PRIOR);
+        CMBox_Grupo.setItems(itemsCMBox_grupo);
+        CMBox_Grupo.getSelectionModel().selectFirst();
+        CMBox_Grupo.setVisible(false);
     }
 
     @FXML
@@ -97,13 +112,20 @@ public class modificarDialogController {
     }
 
     @FXML
-    void onAction_B_Modificar(ActionEvent event) {
-        try{
-            ModificarProducto();
-        } catch(NumberFormatException e){
-            GenericDialogs.Info("No se Puede modificar", "", "los campos numericos de costo, precio por mayor\n"
-                        + "y precio de venta al publico no pueden quedar vacios. Stock inicial si puede quedar vacio\n"
-                        + "ya que se asume como cero en ese caso.");
+    void onClick_B_Modificar(MouseEvent event) {
+        if(event.getButton() == MouseButton.SECONDARY){
+            if(TA_KeyWords.getText().equals("agrupar")){
+                CMBox_Grupo.setVisible(true);
+            }
+        } 
+        else{
+            try{    
+                ModificarProducto();
+            } catch(NumberFormatException e){
+                GenericDialogs.Info("No se Puede modificar", "", "los campos numericos de costo, precio por mayor\n"
+                            + "y precio de venta al publico no pueden quedar vacios. Stock inicial si puede quedar vacio\n"
+                            + "ya que se asume como cero en ese caso.");
+            }
         }
     }
 
@@ -145,13 +167,15 @@ public class modificarDialogController {
         if(fraccionable){
             PesoUnitario =  Integer.parseInt(PesoUnitario_s);
         } else{
-            PesoUnitario = -1;
+            PesoUnitario = 1; // 1 es equivalente a no fraccionable
         }
+        
+        String grupo = CMBox_Grupo.getSelectionModel().getSelectedItem();
         
         // si los cambios son validos se procede a actualizar el producto en mongo.
         dbMapper dbm = new dbMapper();
         Producto modp = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, dbm.now(), keywords,
-                fraccionable, PesoUnitario);
+                fraccionable, PesoUnitario, grupo);
         
         ArrayList relval;
         
@@ -210,6 +234,9 @@ public class modificarDialogController {
             TextField_PesoUnitario.setText(Integer.toString(p.PesoUnitario));
         }
         else TextField_PesoUnitario.setDisable(true);
+        
+        if(p.grupo == "") CMBox_Grupo.getSelectionModel().select(Producto.NORMAL);
+        CMBox_Grupo.getSelectionModel().select(p.grupo);
     }
     
     public void cerrar(){ // metodo para cerrar la ventana

@@ -66,10 +66,60 @@ public class Producto {
      * y descontaria 0.5 en stock.
      */
     public int PesoUnitario;
+    
+    public String grupo;
+    
+    public static final transient String NORMAL = "normal";
+    public static final transient String STK_PRIOR = "prioritario";
 
+    /**
+     * principalmente para usar en la importacion de base de datos de productos
+     * o cuando no se desea especificar el grupo del producto
+     * @param codigo
+     * @param descripcion
+     * @param costo
+     * @param pv_mayor
+     * @param pv_publico
+     * @param iva
+     * @param last_updt
+     * @param keywords
+     */
+    public Producto(String codigo, String descripcion, int costo,
+            int pv_mayor, int pv_publico, Double iva, String last_updt, String keywords) {
+        this._id = codigo;
+        this.descripcion = descripcion;
+        this.costo = costo;
+        this.pv_mayor = pv_mayor;
+        this.pv_publico = pv_publico;
+        this.iva = iva;
+        this.last_updt = last_updt;
+        this.keywords = keywords;
+        
+        //atributos que no estaban en la version anterior de la bd
+        this.fraccionable = false;
+        this.PesoUnitario = 1; // 1 seria equivalente a no fraccionable
+        this.grupo = Producto.NORMAL;
+    }
+    
+    
+    /**
+     * El constructor que debe usarse para las demas partes del programa
+     * ya que acepta todos los parametros 
+     * @param codigo
+     * @param descripcion
+     * @param costo
+     * @param pv_mayor
+     * @param pv_publico
+     * @param iva
+     * @param last_updt
+     * @param keywords
+     * @param fraccionable
+     * @param PesoUnitario
+     * @param grupo 
+     */
     public Producto(String codigo, String descripcion, int costo,
             int pv_mayor, int pv_publico, Double iva, String last_updt, String keywords, 
-            boolean fraccionable, int PesoUnitario) {
+            boolean fraccionable, int PesoUnitario, String grupo) {
         this._id = codigo;
         this.descripcion = descripcion;
         this.costo = costo;
@@ -80,6 +130,7 @@ public class Producto {
         this.keywords = keywords;
         this.fraccionable = fraccionable;
         this.PesoUnitario = PesoUnitario;
+        this.grupo = grupo;
     }
     
     public Producto(){

@@ -91,14 +91,14 @@ public class Validador {
         
         // validacion del peso unitario deacuerdo al valor de fraccionable
         if(p.fraccionable){
-            if(p.PesoUnitario < 1 ){
+            if(p.PesoUnitario <= 1 ){
                 r=false;
                 msg += "El peso unitario debe ser mayor o igual a 1";
             } 
         }
         
         if(!p.fraccionable){
-            if(p.PesoUnitario != -1){
+            if(p.PesoUnitario != 1){
                 r=false;
                 msg += "Ha ocurrido un inconveniente con el peso unitario, por favor comuniquese con soporte tecnico";
             }

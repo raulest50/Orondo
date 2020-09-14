@@ -334,3 +334,9 @@ public class dbMapper {
         
     }
 }
+
+/**
+ * Mongodb ejemplos de comandos.
+ * db.productos.find({$and:[{descripcion:{$regex:/darnel/, $options:"i"}}, {descripcion:{$regex:/vaso/, $options:"i"}}]})
+ * 
+ */

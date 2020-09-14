@@ -87,6 +87,12 @@ public class codificarController {
     @FXML
     public Button Button_Importar;
     
+    
+    private ObservableList<String> itemsCMBox_grupo = FXCollections.observableArrayList();
+    
+    @FXML
+    public ComboBox<String> CMBox_grupo;
+    
     public final String IVA_0="0%", IVA_5="5%", IVA_19="19%";
     
     
@@ -117,6 +123,10 @@ public class codificarController {
                 TextField_PesoUnitario.setText("");
             }
         });
+        itemsCMBox_grupo.addAll(Producto.NORMAL, Producto.STK_PRIOR);
+        CMBox_grupo.setItems(itemsCMBox_grupo);
+        CMBox_grupo.getSelectionModel().selectFirst();
+        CMBox_grupo.setVisible(false);
     }
     
     
@@ -127,6 +137,10 @@ public class codificarController {
         if(event.getButton() == MouseButton.SECONDARY){
             if(TextArea_keywords.getText().equals("importar")){
                 Button_Importar.setVisible(true);
+                TextArea_keywords.setText("");
+            }
+            if(TextArea_keywords.getText().equals("agrupar")){
+                CMBox_grupo.setVisible(true);
                 TextArea_keywords.setText("");
             }
         } else{ // en el caso normal se lee los text fields
@@ -173,8 +187,7 @@ public class codificarController {
                 String last_updt = (String) pjson.get("ultima_actualizacion");
                 String keywords = (String) pjson.get("Familia");
                 
-                Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords,
-                false, 0);
+                Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
                 
                 dbMapper db = new dbMapper();
                 db.SaveProduct(p);
@@ -222,6 +235,11 @@ public class codificarController {
         TextField_StockInit.requestFocus();
     }
     
+    @FXML
+    void onActionB_Borrar(ActionEvent event){
+        ClearTextFields();
+    }
+    
     public void CodificarProducto(){
         dbMapper db = new dbMapper();
         
@@ -250,10 +268,12 @@ public class codificarController {
         int PesoUnitario;
         String PesoUnitario_s = TextField_PesoUnitario.getText();
         if(fraccionable) PesoUnitario = Integer.parseInt(PesoUnitario_s);
-        else PesoUnitario = 0; // 0 seria equivalente a indeifnido para no usar null
+        else PesoUnitario = 1; // 1 seria equivalente a no fraccionable
+        
+        String grupo = CMBox_grupo.getSelectionModel().getSelectedItem();
         
         Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords,
-                fraccionable, PesoUnitario);
+                fraccionable, PesoUnitario, grupo);
         
         // se verifica la validez de los datos y se procede a insertar en bd
         // o indicar al usuario que campos se deben corregir
@@ -280,5 +300,7 @@ public class codificarController {
         TextField_PvPublico.setText("");
         
         TextField_StockInit.setText("");
+        CMBox_grupo.setVisible(false);
+        Button_Importar.setVisible(false);
     }
 }
