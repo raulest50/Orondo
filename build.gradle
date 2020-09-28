@@ -85,7 +85,9 @@ dependencies {
     // https://commons.apache.org/proper/commons-lang/
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
 
-
+    
+    // cliente websocket
+    implementation 'com.neovisionaries:nv-websocket-client:2.10'
 
     
     /*
