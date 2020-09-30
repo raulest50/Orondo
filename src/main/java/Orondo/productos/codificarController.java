@@ -173,7 +173,8 @@ public class codificarController {
             Object obj = jsonParser.parse(reader);
  
             JSONArray listaProductosJson = (JSONArray) obj;
-             
+            
+            ArrayList<Producto> lp = new ArrayList<>();
             //Iterate over employee array
             listaProductosJson.forEach(jsonObj -> {
                 JSONObject pjson = (JSONObject) jsonObj; // producto en formato json
@@ -188,10 +189,12 @@ public class codificarController {
                 String keywords = (String) pjson.get("Familia");
                 
                 Producto p = new Producto(codigo, descripcion, costo, pvmayor, pvpublico, iva, last_updt, keywords);
-                
-                dbMapper db = new dbMapper();
-                db.SaveProduct(p);
+                lp.add(p);
                 });
+            
+            dbMapper db = new dbMapper();
+            db.InsertManyProductos(lp);
+            
  
         } catch (FileNotFoundException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage());

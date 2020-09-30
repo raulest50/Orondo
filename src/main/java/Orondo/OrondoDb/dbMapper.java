@@ -135,6 +135,14 @@ public class dbMapper {
     }
     
     /**
+     * para usar principalmente en importacion de productos.json
+     * @param lp 
+     */
+    public void InsertManyProductos(ArrayList<Producto> lp){
+        getProductosCollection().insertMany(lp);
+    }
+    
+    /**
      * si al producto no se modifico el atributo _id o tambien llamado codigo,
      * entonces el codigo anterior y actual es el mismo, es decir, que en
      * el argumento de esta funcion se podria colocar (Producto p, String p._id).
@@ -338,5 +346,7 @@ public class dbMapper {
 /**
  * Mongodb ejemplos de comandos.
  * db.productos.find({$and:[{descripcion:{$regex:/darnel/, $options:"i"}}, {descripcion:{$regex:/vaso/, $options:"i"}}]})
- * 
+ * db.productos.countDocuments({})
+ * show dbs
+ * use Retail
  */
