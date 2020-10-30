@@ -76,6 +76,9 @@ public class codificarController {
     public CheckBox CheckB_fraccionable;
     
     @FXML
+    public CheckBox CHBox_Hold;
+    
+    @FXML
     public TextField TextField_PesoUnitario;
     
     /**
@@ -287,7 +290,11 @@ public class codificarController {
                     "El producto ha sido ingresado exitosamente\n"
                             + "recuerde que en caso de dejar el campo de iva y/o stock vacios, \n"
                             + "el sistema asume 0 en ambos casos");
-            ClearTextFields();
+            if(CHBox_Hold.isSelected()){
+                TextField_Codigo.setText("");
+                TextField_Codigo.requestFocus();
+            }
+            else ClearTextFields();
         }
         else GenericDialogs.Info("No se puede codificar",
                 "Hay que hacer correcciones a los datos introducidos,\n"

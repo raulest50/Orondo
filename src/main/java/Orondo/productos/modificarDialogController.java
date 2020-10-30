@@ -188,7 +188,7 @@ public class modificarDialogController {
             dbm.UpdateProducto(modp, L_Codigo.getText());
             GenericDialogs.Info("Modificacion", "Operacion Exitosa :)",
                     "La modificacion se realizo correctamente.");
-            mc.BuscarProducto();
+            mc.BuscarProducto();// se realiza nuevamente la busqueda para actualizar la tabla
             cerrar();
         } else{
             GenericDialogs.Info("Modificacion", "Hay que corregir los datos."

@@ -157,8 +157,8 @@ public class dbMapper {
         // _id anterior y nuevo iguales
         if(_id.equals(p._id)) cln.replaceOne(eq("_id", _id), p);
         else{ // _id anterior y nuevo diferentes
-            cln.deleteOne(eq("_id", _id)); // se borra el anterior
-            
+            InsertOneResult ior = cln.insertOne(p); // se inserta el p con el nuevo codigo
+            cln.deleteOne(eq("_id", _id)); // se borra el anterior p con el vijo codigo
         }
     }
     

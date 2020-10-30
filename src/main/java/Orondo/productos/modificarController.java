@@ -127,6 +127,7 @@ public class modificarController {
         }
         
         TV_Productos.getItems().setAll(lista);
+        TF_Buscar.requestFocus();
     }
     
     @FXML // se abre una ventana modal para modifcar el producto seleccionado
