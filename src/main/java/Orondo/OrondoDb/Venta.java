@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Venta {
     
-    public String _id; // es el concecutivo de la documento de venta
+    public String _id; // es el concecutivo del documento de venta
     
     public ArrayList<ItemVenta> items;
     

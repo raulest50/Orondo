@@ -179,6 +179,15 @@ public class codificarController {
             
             ArrayList<Producto> lp = new ArrayList<>();
             //Iterate over employee array
+            
+            /**
+             * este codigo es especifico para importar de la bd de sql (anterior
+             * varsion del programa) a la nueva version con mongo. los key del 
+             * json no son los mismos, este codigo toca dejarlo quieto o hacer una
+             * version mas compleja y generalizada de importacion en la que se use
+             * interfaz grafica para definir los keys y asi lograr una importacion
+             * generalizada a la bd. por lo pronto dejar quieto.
+             */
             listaProductosJson.forEach(jsonObj -> {
                 JSONObject pjson = (JSONObject) jsonObj; // producto en formato json
                 

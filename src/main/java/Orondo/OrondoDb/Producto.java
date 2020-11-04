@@ -1,5 +1,7 @@
 package Orondo.OrondoDb;
 
+import org.json.simple.JSONObject;
+
 
 
 
@@ -133,9 +135,26 @@ public class Producto {
         this.grupo = grupo;
     }
     
-    public Producto(){
-        
+    /**
+     * construye el obj producto a partir de un json con los keys de la nueva bd.
+     * NO USAR EN LA IMPORTACION DE LA VIEJA BD DE SQL.
+     * @param pjson 
+     */
+    public Producto(JSONObject pjson){
+        this._id = (String) pjson.get("_id");
+        this.descripcion = (String) pjson.get("descripcion");
+        this.costo = ((Number) pjson.get("costo")).intValue();
+        this.pv_mayor = ((Number) pjson.get("pv_mayor")).intValue();
+        this.pv_publico = ((Number) pjson.get("pv_publico")).intValue();
+        this.iva = ((Number) pjson.get("iva")).doubleValue();
+        this.last_updt = (String) pjson.get("last_updt");
+        this.keywords = (String) pjson.get("keywords");
+        this.PesoUnitario = ((Number) pjson.get("PesoUnitario")).intValue();
+        this.grupo = (String) pjson.get("grupo");
+        this.fraccionable = (boolean) pjson.get("fraccionable");
     }
+    
+    public Producto(){}
 
     public String getId() {
         return _id;

@@ -46,6 +46,12 @@ module Orondo {
     //Apache Commons Lang provides these extra methods.
     requires org.apache.commons.lang3;
     
+    requires org.eclipse.paho.client.mqttv3; // mqtt client only
+    
+    requires nv.websocket.client; // websocket server-client
+    
+    requires com.google.gson; // best suited than simplejson for certain tasks
+    
     opens Orondo.productos to javafx.fxml;
     opens Orondo.ventas to javafx.fxml;
     opens Orondo.inicio to javafx.fxml;

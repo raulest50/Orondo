@@ -54,8 +54,8 @@ public class Wsocket {
             ws.connect();
             
             Map<String, String> msg = new HashMap<>();
-            msg.put(K.Key_proposito, K.PROPOSITO_ID);
-            msg.put(K.Key_body, K.ORONDO_ORIG);
+            //msg.put(K.Key_proposito, K.PROPOSITO_ID);
+            //msg.put(K.Key_body, K.ORONDO_ORIG);
             
             // se cnvierte 
             ws.sendText(JSONValue.toJSONString(msg));

@@ -6,7 +6,8 @@
 package Orondo.OrondoDb;
 
 import Orondo.utils.Util;
-import java.lang.UnsupportedOperationException;
+import org.json.simple.JSONObject;
+
 
 /**
  *
@@ -60,6 +61,20 @@ public class ItemVenta {
         RefreshSubTotal();
     }
     
+    /**
+     * construye un itemVenta a partir de un Objeto Json con la lib json simple.
+     * Gson no era adecuada para este trabajo ya que su uso implicaba cambiar
+     * otras partes de codigo, algo indeseable a este punto.
+     * @param json_itv 
+     */
+    public ItemVenta(JSONObject json_itv){
+        this.producto_id = (String) json_itv.get("producto_id");
+        this.UnitPrecio =  ((Number) json_itv.get("UnitPrecio")).intValue();
+        this.subTotal = ((Number) json_itv.get("subTotal")).intValue();
+        this.fraccionado = (boolean) json_itv.get("fraccionado");
+        this.Cantidad = ((Number)json_itv.get("Cantidad")).intValue();
+        this.p = new Producto((JSONObject) json_itv.get("p"));
+    }
     
     public void Add2Cantidad(int add){
         this.Cantidad += add;
@@ -161,12 +176,13 @@ public class ItemVenta {
     
     /**
      * La idea es implementar en la clase producto un atributo para especificar 
-     * la unidad de medida en el caso de fraccionar un producto. De esta forma
+     * la unidad de medida en el caso de fraccionar un producto.De esta forma
      * si el itemventa es fraccionado, al momento de entregra la cantidad
      * para uso en el table view, el item venta puede adicionar al String
      * la unidad de medida. sin embargo para agilizar la primera implementacion
      * lo dejare para agregar despues y dejo este metodo declarado para
      * recordar el patron en un futuro.
+     * @return 
      */
     public String getMeasureUnit(){
         return "g";

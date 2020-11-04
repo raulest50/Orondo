@@ -92,8 +92,6 @@ public class modificarController {
         itemsComboB.addAll(this.B_DESCRI, this.B_CODIGO_EXACT, this.B_LAST_CODE);
         CB_OpcionesB.setItems(itemsComboB);
         CB_OpcionesB.getSelectionModel().selectFirst();
-        
-        
     }
     
     
@@ -115,15 +113,9 @@ public class modificarController {
         String b = TF_Buscar.getText();
         
         switch(selected){
-            case B_CODIGO_EXACT:
-                lista = dbm.GetProductById(b);
-                break;
-            case B_DESCRI:
-                lista = dbm.GetByDescripcion(b);
-                break;
-            case B_LAST_CODE:
-                lista = dbm.getPrdByLastCod(b);
-                break;
+            case B_CODIGO_EXACT -> lista = dbm.GetProductById(b);
+            case B_DESCRI -> lista = dbm.GetByDescripcion(b);
+            case B_LAST_CODE -> lista = dbm.getPrdByLastCod(b);
         }
         
         TV_Productos.getItems().setAll(lista);
@@ -136,9 +128,9 @@ public class modificarController {
         
         if(sp == null) GenericDialogs.Info("Informacion",
                 "No ha seleccionado ningun producto", 
-                "Primero debe seleccionar un producto de la tabla.\n"
-              + "Cuando un producto esta seleccionado toda su fila se resalta"
-                );
+                """
+                Primero debe seleccionar un producto de la tabla.
+                Cuando un producto esta seleccionado toda su fila se resalta""");
         
         else abrirModDialog(event, sp);
     }
