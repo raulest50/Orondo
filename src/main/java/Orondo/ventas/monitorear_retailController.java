@@ -86,31 +86,14 @@ public class monitorear_retailController {
             if(this.NodosVentas.containsKey(lnm.mqttClientId)){
                 NodosVentas.get(lnm.mqttClientId).setLista(lnm.lv);
             } else{
-                NodosVentas.put(lnm.mqttClientId, new NodoBlock(lnm.lv));
+                NodosVentas.put(lnm.mqttClientId, new NodoBlock(lnm.lv, lnm.mqttClientId));
             }
         } catch(ParseException e){
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "LV_notifyChange(msg)", e);
         }
     }
     
-    /**
-     * crea un table view con 3 columnas. cada tableView permite visualizar en 
-     * tiempo real las ventas de cada punto de pago.
-     * @return 
-     */
-    public TableView<ItemVenta> genTableView(){
-        TableView tb = new TableView();
-        TableColumn<String, ItemVenta> tc_descri = new TableColumn("Descripcion");
-        TableColumn<Integer, ItemVenta> tc_N = new TableColumn("N");
-        TableColumn<Integer, ItemVenta> tc_subT = new TableColumn("subTotal");
-        
-        tc_descri.setCellValueFactory(new PropertyValueFactory("descripcion"));
-        tc_N.setCellValueFactory(new PropertyValueFactory("cantidad"));
-        tc_subT.setCellValueFactory(new PropertyValueFactory("subTotal"));
-        
-        tb.getColumns().addAll(tc_descri, tc_N, tc_subT);
-        return tb;
-    }
+    
     
     /**
      * para encapsular varios elemetos en un key del hashmap
@@ -119,14 +102,20 @@ public class monitorear_retailController {
         LinkedList<ItemVenta> lv;
         TableView<ItemVenta> tb;
         
+        TableColumn<String, ItemVenta> tc_descri;
+        TableColumn<Integer, ItemVenta> tc_N;
+        TableColumn<Integer, ItemVenta> tc_subT;
+        
         VBox vbox;
         Label total_label = new Label();
+        Label node_name_label = new Label();
 
-        public NodoBlock(LinkedList<ItemVenta> lv) {
+        public NodoBlock(LinkedList<ItemVenta> lv, String node_name) {
             this.lv = lv; 
             this.tb = genTableView();
             this.tb.getItems().setAll(this.lv);
-            vbox = new VBox(tb, total_label);
+            node_name_label.setText(node_name);// nombre de cada nodo
+            vbox = new VBox(tb, total_label, node_name_label);
             SetStyle();
             Platform.runLater(()->{
                 HBox_Nodos.getChildren().add(vbox);
@@ -152,6 +141,31 @@ public class monitorear_retailController {
             vbox.setPadding(new Insets(0, 15, 0, 0));
             total_label.setFont(new Font(20));
             total_label.setTextFill(Color.DARKGREEN);
+            node_name_label.setFont(new Font(20));
+            tb.setStyle("-fx-font-size:1.2em;");
+            tc_descri.setPrefWidth(250);
+            tc_N.setPrefWidth(50);
+            tc_subT.setPrefWidth(100);
+            tb.setPrefWidth(400);
         }
+        
+        /**
+        * crea un table view con 3 columnas. cada tableView permite visualizar en 
+        * tiempo real las ventas de cada punto de pago.
+        * @return 
+        */
+       private TableView<ItemVenta> genTableView(){
+           TableView tbt = new TableView();
+           tc_descri = new TableColumn("Descripcion");
+           tc_N = new TableColumn("N");
+           tc_subT = new TableColumn("subTotal");
+
+           tc_descri.setCellValueFactory(new PropertyValueFactory("descripcion"));
+           tc_N.setCellValueFactory(new PropertyValueFactory("cantidad"));
+           tc_subT.setCellValueFactory(new PropertyValueFactory("subTotal"));
+
+           tbt.getColumns().addAll(tc_descri, tc_N, tc_subT);
+           return tbt;
+       }
     }
 }

@@ -19,7 +19,7 @@ public class ItemVenta {
      * el producto correspondiente a este item de venta.
      * de aqui se toman los datos como codigo nombre costo etc
      */
-    public transient Producto p;
+    public Producto p;
     
     /**
      * codigo del producto
