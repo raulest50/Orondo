@@ -21,11 +21,6 @@ public class ItemVenta {
      */
     public Producto p;
     
-    /**
-     * codigo del producto
-     */
-    private final String producto_id;
-    
     private int Cantidad;
     
     private int subTotal;
@@ -54,7 +49,6 @@ public class ItemVenta {
      */
     public ItemVenta(Producto p, int Cantidad, int UnitPrecio, boolean fraccionado){
         this.p = p;
-        this.producto_id = p._id;
         this.Cantidad = Cantidad;
         this.UnitPrecio = UnitPrecio;
         this.fraccionado = fraccionado;
@@ -68,7 +62,6 @@ public class ItemVenta {
      * @param json_itv 
      */
     public ItemVenta(JSONObject json_itv){
-        this.producto_id = (String) json_itv.get("producto_id");
         this.UnitPrecio =  ((Number) json_itv.get("UnitPrecio")).intValue();
         this.subTotal = ((Number) json_itv.get("subTotal")).intValue();
         this.fraccionado = (boolean) json_itv.get("fraccionado");
@@ -157,10 +150,6 @@ public class ItemVenta {
 
     public int getUnitPrecio() {
         return UnitPrecio;
-    }
-
-    public String getProducto_id() {
-        return producto_id;
     }
 
     public boolean isFraccionado() {

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Orondo.ventas.hacerVentasController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Orondo.ventas.hacerVentasController">
    <children>
       <BorderPane onKeyPressed="#onKeyPressed_BorderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -81,7 +81,11 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Button mnemonicParsing="false" text="Buscar Cliente" />
+                                    <Button mnemonicParsing="false" text="Buscar Cliente">
+                                       <HBox.margin>
+                                          <Insets right="20.0" />
+                                       </HBox.margin></Button>
+                                    <Button mnemonicParsing="false" onAction="#onAction_B_Imprimir" text="Imprimir" />
                                  </children>
                               </HBox>
                            </children>

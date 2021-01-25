@@ -6,8 +6,10 @@ import Orondo.OrondoDb.Venta;
 import Orondo.OrondoDb.dbMapper;
 import Orondo.inicio.Locations;
 import Orondo.utils.Toast;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +32,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  *
@@ -277,6 +285,35 @@ public class hacerVentasController {
     public void onAction_B_Cancelar(ActionEvent event){
         TV_Ventas.getItems().clear();
         //TV_Ventas.refresh();
+    }
+    
+    @FXML // cuando se hace click en el boton de imprimir 
+    public void onAction_B_Imprimir(ActionEvent event){
+        System.out.println("imprimir_remi");
+        HttpPost_Imprimir();
+    }
+    
+    
+    public void HttpPost_Imprimir(){
+        
+        ObservableList<ItemVenta> ol = this.TV_Ventas.getItems();
+        if(ol.size()>= 1){ // si la lista no de venta no esta vacia.
+            LinkedList<ItemVenta> lit = new LinkedList<>();
+            ol.iterator().forEachRemaining((x) -> { lit.add(x); });
+            
+            String lv_json = new Gson().toJson(lit);
+            System.out.println(lv_json);
+            String post_ans;
+            try {
+                RequestBody reqBody = new FormBody.Builder().add("lista_compra", lv_json).build();
+                Request req = new Request.Builder().url("http://localhost:3000/imprimir_remi").post(reqBody).build();
+                OkHttpClient client = new OkHttpClient();
+                Call call = client.newCall(req);
+                try (Response res = call.execute()) { post_ans = res.body().string();}
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
     }
     
     public void RegistrarVenta(){

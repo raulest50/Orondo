@@ -7,21 +7,19 @@ package Orondo.OrondoDb;
 
 /**
  *
- * @author Raul Alzate
+ * @author Raul Esteban Alzate
  */
-public class Cliente {
-    
+public class Vendedor {
     
     public String _id;
     
     public String nombre;
     
-    public String alias;
-    
-    public String direccion;
+    public String fecha_nacimiento;
     
     public String fecha_ingreso;
     
+    public String estado; // activo, inactivo, incapacitado etc
     
     
     

@@ -32,6 +32,9 @@ module Orondo {
     // exception={com.mongodb.MongoException: java.lang.NoClassDefFoundError: jdk/net/ExtendedSocketOptions}
     requires jdk.net;
     
+    requires java.net.http;
+    requires okhttp3;
+    
     // si no se agrega este modulo ocurre una excepcion cuando se instancia un
     // objeto de la clase Morphia con new Morphia()
     // requires java.sql;
@@ -55,6 +58,8 @@ module Orondo {
     opens Orondo.productos to javafx.fxml;
     opens Orondo.ventas to javafx.fxml;
     opens Orondo.inicio to javafx.fxml;
+    
+    opens Orondo.OrondoDb to com.google.gson;
     
     exports Orondo.inicio;
     exports Orondo.productos;

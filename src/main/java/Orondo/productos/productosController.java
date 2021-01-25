@@ -81,3 +81,18 @@ public class productosController {
     }
     
 }
+
+
+/**
+ * MONGODB AGGREGATION 
+ * ley de benford
+ * 
+ * 
+    db.productos.aggregate([{
+        $group: { _id: { $substr:[ {$toString: [ "$costo"]} , 0, 1]} ,  num:{$sum : 1} }
+    }])
+ * 
+ * db.productos.count()
+ * 
+ * 
+ */

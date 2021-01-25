@@ -66,6 +66,28 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </VBox>
+                  
+                  <VBox fx:id="VBox_Reg_Ventas" alignment="CENTER" onMouseClicked="#onClick_VBox_Monitorear" styleClass="intro_option">
+                     <children>
+                        <FontIcon iconLiteral="met-graphs" iconSize="55">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </FontIcon>
+                        <Label text="Registro De Ventas">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  
                </children>
                <BorderPane.margin>
                   <Insets right="10.0" />

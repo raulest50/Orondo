@@ -266,11 +266,11 @@ public class dbMapper {
     
     /**
      * debe asignar el id a la venta ya que este debe ser un concecutivo
-     * segun lo dispuesto por la dian para facturacion POS.
-     *  al hacer las operaciones dentro de una transacion nos aseguramos
+     * segun lo dispuesto por la dian para facturacion POS.al hacer las operaciones dentro de una transacion nos aseguramos
      * de que el consecutivo se avance +1 solo si realmente se inserto
      * el documento de venta, asegurando consistencia de los datos.
-     * @param v 
+     * @param v
+     * @return 
      */
     public boolean InsertVenta(Venta v){
         boolean op_exitosa = false;

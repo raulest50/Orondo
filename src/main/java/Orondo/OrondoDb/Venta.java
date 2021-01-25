@@ -6,6 +6,7 @@
 package Orondo.OrondoDb;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -19,21 +20,24 @@ public class Venta {
     
     public String fecha;
     
+    public String tipo_id_Cliente;
+    
     public String Cliente_id;
     
-    public int total;
+    public String Vendedor_id; // identificacion de quien registro la venta
     
     /**
      * constructor que se usa cuando se desea insertar una venta en la bd
      * @param items
-     * @param fecha
-     * @param Cliente_id 
+     * @param fecha 
+     * @param Vendedor_id 
      */
-    public Venta(ArrayList<ItemVenta> items, String fecha, String Cliente_id){
+    public Venta(ArrayList<ItemVenta> items, String fecha, String Vendedor_id){
         this.items = items;
         this.fecha = fecha;
-        this.Cliente_id = Cliente_id;
-        this.total = SumPVs(items);
+        this.Vendedor_id = Vendedor_id;
+        // 1 corresponde a la identificacion de cliente generico para ventas mostrador
+        this.Cliente_id = "1"; 
         // _id se genera al momento de la insercion
     }
     
@@ -44,7 +48,12 @@ public class Venta {
         
     }
     
-    public int SumPVs(ArrayList<ItemVenta> items){
+    /**
+     * Get total 
+     * @param items
+     * @return 
+     */
+    public int getTotalVenta(ArrayList<ItemVenta> items){
         int s = 0;
         for (ItemVenta x : items){
             s += x.getSubTotal();
@@ -53,4 +62,14 @@ public class Venta {
     }
     
     
+    /**
+     * Retorna un mapa con los valores correspondiete a cada porcentaje de
+     * iva. los de 0 corresponderian a los excentos.
+     * @return 
+     */
+    public HashMap calcularIvas(){
+        HashMap<String, Integer> ivas = new HashMap<>();
+        
+        return ivas;
+    }
 }
