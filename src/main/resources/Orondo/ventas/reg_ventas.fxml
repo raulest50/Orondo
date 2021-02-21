@@ -1,24 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <TableView BorderPane.alignment="CENTER">
+            <TableView fx:id="TV_Ventas" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="75.0" text="Consecutivo" />
-                <TableColumn prefWidth="75.0" text="Valor" />
-                  <TableColumn prefWidth="75.0" text="Fecha" />
-                  <TableColumn prefWidth="75.0" text="cliente" />
+                <TableColumn fx:id="TC_vent_consecutivo" prefWidth="75.0" text="Consecutivo" />
+                <TableColumn fx:id="TC_Valor" prefWidth="75.0" text="Valor" />
+                  <TableColumn fx:id="TC_Fecha" prefWidth="75.0" text="Fecha" />
+                  <TableColumn fx:id="TC_Cliente" prefWidth="75.0" text="cliente" />
               </columns>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </BorderPane.margin>
             </TableView>
          </left>
+         <top>
+            <HBox BorderPane.alignment="CENTER">
+               <children>
+                  <VBox>
+                     <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Label text="Desde">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <DatePicker fx:id="DTP_Desde" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <Label text="Hasta">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <DatePicker fx:id="DTP_Hasta" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <TableView fx:id="TV_ItemVenta" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="TC_ItemVenta_Descripcion" prefWidth="135.33331549167633" text="Descripcion" />
+                <TableColumn fx:id="TC_ItemVenta_Precio" minWidth="8.666679382324219" prefWidth="52.000030517578125" text="P" />
+                  <TableColumn fx:id="TC_ItemVenta_N" minWidth="0.0" prefWidth="44.0" text="N" />
+                  <TableColumn fx:id="TC_ItemVenta_SubT" prefWidth="100.0" text="SubT" />
+              </columns>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </BorderPane.margin>
+            </TableView>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

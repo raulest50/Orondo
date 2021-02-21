@@ -53,6 +53,7 @@ public class Locations {
     
     public static String modificar_dialog_fxml = "modificarDialog.fxml";
     
+    public static String reg_ventas_fxml = "reg_ventas.fxml";
     
     public static String ventas_fxml = "ventas.fxml";
     

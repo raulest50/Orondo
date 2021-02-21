@@ -33,6 +33,7 @@ public class ventasController {
     
     public Pane pane_vender;
     public Pane pane_monitorear;
+    public Pane pane_reg_ventas;
     
     public mainController maincont;
     
@@ -42,6 +43,7 @@ public class ventasController {
     public ventasController() throws IOException{
         this.pane_vender = (Pane) FXMLLoader.load(this.getClass().getResource(Locations.hacer_ventas_fxml));
         this.pane_monitorear = (Pane) FXMLLoader.load(this.getClass().getResource(Locations.monitorear_ventas_fxml));
+        this.pane_reg_ventas = (Pane) FXMLLoader.load(this.getClass().getResource(Locations.reg_ventas_fxml));
     }
     
     public void initialize() {
@@ -65,4 +67,11 @@ public class ventasController {
     public void onClick_VBox_Monitorear(MouseEvent event){
         BorderPane_bp.setCenter(pane_monitorear);
     }
+    
+    @FXML
+    public void onClick_VBox_RegVentas(){
+        BorderPane_bp.setCenter(pane_reg_ventas);
+    }
+    
+    
 }

@@ -234,6 +234,19 @@ public class dbMapper {
         return lp;
     }
     
+    /**
+     * aun por implementar.
+     * trae de la base de datos las ventas entre 2 momentos de tiempo
+     * especificado.
+     * @param d1
+     * @param d2
+     * @return 
+     */
+    public ArrayList<Venta> getVentas(String d1, String d2){
+        ArrayList<Venta> r = new ArrayList<>();
+        return r;
+    }
+    
     
     
     /**
