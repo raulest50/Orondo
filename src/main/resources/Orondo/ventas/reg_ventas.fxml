@@ -11,16 +11,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Orondo.ventas.RegVentas_Controller">
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
             <TableView fx:id="TV_Ventas" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="TC_vent_consecutivo" prefWidth="75.0" text="Consecutivo" />
-                <TableColumn fx:id="TC_Valor" prefWidth="75.0" text="Valor" />
-                  <TableColumn fx:id="TC_Fecha" prefWidth="75.0" text="Fecha" />
-                  <TableColumn fx:id="TC_Cliente" prefWidth="75.0" text="cliente" />
+                <TableColumn fx:id="TC_TV_Consecutivo" prefWidth="75.0" text="Consecutivo" />
+                <TableColumn fx:id="TC_TV_Valor" prefWidth="75.0" text="Valor" />
+                  <TableColumn fx:id="TC_TV_Fecha" prefWidth="75.0" text="Fecha" />
+                  <TableColumn fx:id="TC_TV_Cliente" prefWidth="75.0" text="cliente" />
               </columns>
                <BorderPane.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

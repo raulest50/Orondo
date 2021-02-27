@@ -331,6 +331,7 @@ public class hacerVentasController {
                 int fadeInTime = 500; //0.5 seconds
                 int fadeOutTime= 500; //0.5 seconds
                 Stage st = (Stage) TF_BuscarProducto.getScene().getWindow();
+                RefreshSuma(); // debe quedar 0
                 Toast.makeText(st, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
             }
         }

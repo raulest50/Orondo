@@ -2,6 +2,7 @@ package Orondo.OrondoDb;
 
 
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ReadConcern;
 import com.mongodb.ReadPreference;
@@ -15,14 +16,19 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.TransactionBody;
 
 
+
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.lte;
+
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+
 import java.util.Iterator;
 
 
@@ -235,19 +241,27 @@ public class dbMapper {
     }
     
     /**
-     * aun por implementar.
-     * trae de la base de datos las ventas entre 2 momentos de tiempo
-     * especificado.
-     * @param d1
-     * @param d2
+     * aun por implementar.trae de la base de datos las ventas entre 2 momentos de tiempo
+     * especificado. 
+     * En find() debe ir una implementacion de BSon interface. En este caso
+     * fue mas comodo y rapido usar BasicDBObject pero, aunque no deprecated,
+     * no se recomienda para nuevas implementaciones.
+     * @param d
      * @return 
      */
-    public ArrayList<Venta> getVentas(String d1, String d2){
-        ArrayList<Venta> r = new ArrayList<>();
-        return r;
+    public ArrayList<Venta> getVentas(LocalDateTime[] d){
+        ArrayList<Venta> lv = new ArrayList<>();
+        //Bson filter = and(gte("fecha", d1), lte("fecha", d1));
+        
+        BasicDBObject query = new BasicDBObject("fecha", //
+                      new BasicDBObject("$gte", d[0]).append("$lt", d[1]));
+        
+        Iterator<Venta> it = getVentaCollection().find(query).iterator();
+        it.forEachRemaining((x) -> { lv.add(x); });
+        return lv;
     }
     
-    
+    //eq("fecha", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
     
     /**
      * crea un respaldo de la base de datos como archivo .json
@@ -265,16 +279,16 @@ public class dbMapper {
         return LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ");
     }
     
+    public String nowDay(){
+        return LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).toString().split("T")[0];
+    }
+    
     // agregar un arrancador de la base de datos mongo y un ping para mongodb
     // si ocurre un ConectionRefusedException que orondo arranque mongod
     // de manera automatica
     
     
     // ################ Ventas
-    
-    public void saveVenta(Venta v){
-        
-    }
     
     
     /**

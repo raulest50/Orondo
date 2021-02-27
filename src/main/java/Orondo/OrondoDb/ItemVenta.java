@@ -56,6 +56,12 @@ public class ItemVenta {
     }
     
     /**
+     * Empty constructor requerido por el mongojava conector
+     * para reconstruir obj desde mongodb
+     */
+    public ItemVenta(){}
+    
+    /**
      * construye un itemVenta a partir de un Objeto Json con la lib json simple.
      * Gson no era adecuada para este trabajo ya que su uso implicaba cambiar
      * otras partes de codigo, algo indeseable a este punto.
