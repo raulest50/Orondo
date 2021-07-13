@@ -7,13 +7,20 @@ import Orondo.OrondoDb.dbMapper;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Objects;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -73,16 +80,89 @@ public class RegVentas_Controller {
     @FXML
     private DatePicker DTP_Hasta;
     
+    @FXML
+    public Spinner Sp_HH_Desde;
     
-    public dbMapper dbm = new dbMapper();
+    @FXML
+    public Spinner Sp_HH_Hasta;
+    
+    @FXML
+    public Spinner Sp_MM_Desde;
+    
+    @FXML
+    public Spinner Sp_MM_Hasta;
     
     
+    //Labels para motrar datos de las ventas entre las fechas especificadas
+    @FXML
+    public Label L_NVentas;
     
+    @FXML
+    public Label L_Realizo;
+    
+    @FXML
+    public Label L_Ganancia;
+    
+    @FXML
+    public Label L_PorcentUtilidad;
+    
+    // Create ContextMenu
+    ContextMenu contextMenu_TVentas = new ContextMenu();
+    
+    
+    public dbMapper dbm = new dbMapper(); // para interactura con mongo.
+    
+    
+    // la api de javafx invoca este metodo al inicio de operacion del controlador
     public void initialize(){
         ConfigTables();
-        CargarVentasActuales();
+        CargarVentas(this.getLDateRange());
+        InitSpinners();
     }
     
+    @FXML
+    public void onClick_B_Actualizar(MouseEvent e){
+        // para tener los limites inferios y superior en una sola variable
+        LocalDateTime[] ldtr = new LocalDateTime[2];
+        LocalDateTime df; // fecha limite inferior
+        LocalDateTime dto; // fecha limite superior
+        
+        if( Objects.isNull(DTP_Desde.getValue()) || Objects.isNull(DTP_Desde.getValue())){
+            CargarVentas(this.getLDateRange());
+        } else {
+            df = DTP_Desde.getValue().atStartOfDay();
+            dto = DTP_Hasta.getValue().atStartOfDay();
+            
+            df = df.plusHours((int) Sp_HH_Desde.getValue());
+            df = df.plusMinutes((int) Sp_MM_Desde.getValue());
+            
+            dto = dto.plusHours((int) Sp_HH_Hasta.getValue());
+            dto = dto.plusMinutes((int) Sp_MM_Hasta.getValue());
+            ldtr[0] = df;
+            ldtr[1] = dto;
+            System.out.println("${ldtr[0]} - ${ldtr[1]}");
+            
+            CargarVentas(ldtr);
+        }
+        TV_ItemVenta.getItems().setAll( new ArrayList<>() );
+    }
+    
+    /**
+     * configura el context menu que sale con click derecho en la tabla de 
+     * ventas.
+     */
+    public void ConfCMenuTV(){
+        
+        TV_Ventas.setOnMouseClicked(mevent -> {
+            if (mevent.getButton() == MouseButton.SECONDARY){
+                contextMenu_TVentas.show(contextMenu_TVentas);
+            }
+        });
+    }
+    
+    /**
+     * configura las columnas de los table view y la funcionalidad de las tablas
+     */
     public void ConfigTables(){
         TC_TV_Consecutivo.setCellValueFactory(new PropertyValueFactory<>("id"));
         TC_TV_Valor.setCellValueFactory(new PropertyValueFactory<>("valor"));
@@ -133,11 +213,36 @@ public class RegVentas_Controller {
         return ldtr;
     }
     
-    public void CargarVentasActuales(){
-        LocalDateTime[] ldtr = getLDateRange();
+    public void CargarVentas(LocalDateTime[] ldtr){
         ArrayList<Venta> lv = dbm.getVentas(ldtr);
+        L_NVentas.setText(Integer.toString(lv.size()));
         TV_Ventas.getItems().setAll(lv);
         
+        int Scosto = 0;
+        int SVenta = 0;
+        for(Venta v : lv){
+            for(ItemVenta itv : v.getItems()){
+                Scosto += itv.p.costo * itv.getCantidad();
+                SVenta += itv.getSubTotal();
+            }
+        }
+        
+        L_Realizo.setText(Integer.toString(SVenta));
+        L_Ganancia.setText(Integer.toString(SVenta-Scosto));
+        double pcent = 0.0;
+        if (Scosto > 0) pcent = ((double) (SVenta-Scosto)/ (double) Scosto)*100;
+        L_PorcentUtilidad.setText(Double.toString(pcent));
+    }
+    
+    /**
+     * se configuran los controles para establecer hora inicial y final
+     * de la fecha entre la que se desea analizar los registros de ventas
+     */
+    public void InitSpinners(){
+        Sp_HH_Desde.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 0) );
+        Sp_HH_Hasta.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 0) );
+        Sp_MM_Desde.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0) );
+        Sp_MM_Hasta.setValueFactory( new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0) );
     }
     
 }
