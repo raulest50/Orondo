@@ -15,13 +15,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.TransactionBody;
 
-
-
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Filters.lte;
 
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -246,18 +242,30 @@ public class dbMapper {
      * En find() debe ir una implementacion de BSon interface. En este caso
      * fue mas comodo y rapido usar BasicDBObject pero, aunque no deprecated,
      * no se recomienda para nuevas implementaciones.
+     * 
+     * 
+     * Bson filter = and(gte("fecha", d1), lte("fecha", d1));
+     * 
+     * db.getCollection('ventas').find(
+     * {"$and":[{"fecha":{"$gte":"2021-08-24 00:00:00"}}, {"fecha":{"$lt":"2021-08-24 23:59:59"}}]}
+     * )
+     * 
      * @param d
      * @return 
      */
     public ArrayList<Venta> getVentas(LocalDateTime[] d){
         ArrayList<Venta> lv = new ArrayList<>();
-        //Bson filter = and(gte("fecha", d1), lte("fecha", d1));
         
+        //Bson filter = and(gte("fecha", d1), lte("fecha", d1));
         BasicDBObject query = new BasicDBObject("fecha", //
                       new BasicDBObject("$gte", d[0]).append("$lt", d[1]));
         
         Iterator<Venta> it = getVentaCollection().find(query).iterator();
         it.forEachRemaining((x) -> { lv.add(x); });
+        
+        System.out.println("**********************");
+        System.out.println(lv.size());
+        
         return lv;
     }
     

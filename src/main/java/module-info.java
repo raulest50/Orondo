@@ -14,6 +14,7 @@ module Orondo {
     requires org.kordamp.ikonli.metrizeicons;
     requires org.kordamp.ikonli.entypo;
     requires org.kordamp.iconli.core;
+    requires org.kordamp.ikonli.openiconic;
     
     
     // quito el warning de slf4j
@@ -50,6 +51,15 @@ module Orondo {
     requires org.apache.commons.lang3;
     
     requires org.eclipse.paho.client.mqttv3; // mqtt client only
+    
+    
+    /*
+    provides org.eclipse.paho.client.mqttv3.spi.NetworkModuleFactory with 
+            org.eclipse.paho.client.mqttv3.internal.SSLNetworkModuleFactory,
+            org.eclipse.paho.client.mqttv3.internal.TCPNetworkModuleFactory,
+            org.eclipse.paho.client.mqttv3.internal.websocket.WebSocketNetworkModuleFactory,
+            org.eclipse.paho.client.mqttv3.internal.websocket.WebSocketSecureNetworkModuleFactory;
+    */
     
     requires nv.websocket.client; // websocket server-client
     
